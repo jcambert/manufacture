@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="module_category_plm" model="ir.module.category">
+            <field name="name">PLM/ECO Managment</field>
+            <field name="description">Gestion de cycle de vie des produits</field>
+            <field name="sequence">45</field>
+        </record>
+        <record id="group_mrp_plm_eco_user" model="res.groups">
+            <field name="name">ERP PLM / User</field>
+            <field name="category_id" ref="module_category_plm"/>
+        </record>
+        <record id="group_mrp_plm_eco_manager" model="res.groups">
+            <field name="name">ERP PLM / Manager</field>
+            <field name="category_id" ref="module_category_plm"/>
+            <field name="users" eval="[(4, ref('base.user_admin')), (4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[(4, ref('group_mrp_plm_eco_user'))]"/>
+        </record>
+    </data>
+</odoo>
