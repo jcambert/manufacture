@@ -11,5 +11,5 @@ class EcoApprovalTemplate(models.Model):
         ('mandatory','Mandatory'),
         ('comment','Comment')],required=True,string="Validation Type")
     name=fields.Char('Role',required=True)
-    stage_id=fields.Many2one('mrp.eco.stage',ondelete='restrict',string="Stage")
+    stage_id=fields.Many2one('mrp.plm.eco.stage',ondelete='restrict',string="Stage")
     user_ids=fields.Many2many('res.users',ondelete='restrict',required=True)

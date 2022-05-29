@@ -43,3 +43,22 @@ class BaseColor(models.AbstractModel):
         return randint(1, 11)
 
     color = fields.Integer(string='Color Index', default=_get_default_color)
+
+class BaseKanbanState(models.AbstractModel):
+    _name='kanban.mixin'
+    _description='kanban Mixin'
+
+    kanban_state = fields.Selection([
+        ('normal', 'In Progress'),
+        ('done', 'Ready'),
+        ('blocked', 'Blocked')], string='Kanban State',
+        copy=False, default='normal', required=True)
+
+class BasePriority(models.AbstractModel):
+    _name='priority.mixin'
+    _description='Priority Mixin'
+
+    priority = fields.Selection([
+        ('0', 'Normal'),
+        ('1', 'Important'),
+    ], default='0', index=True, string="Priority")

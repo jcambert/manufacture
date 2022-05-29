@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api,_
 from odoo.exceptions import UserError, ValidationError
 DEFAULT_TYPE_ID='default_type_id'
 
-class Eco(Model):
+class Eco(models.Model):
     _name = 'mrp.plm.eco'
     _description='Ordre de Modification Technique (OMT)'
     _inherit = ['mail.activity.mixin', 'mail.thread.cc', 'mail.alias.mixin',
@@ -39,7 +39,7 @@ class Eco(Model):
     new_bom_id = fields.Many2many('mrp.bom')
     new_bom_revision=fields.Integer('BOM revision')
     note=fields.Text('Internal Notes')
-    previous_change_ids=fields.One2many('mrp.plm.eco.bom.change','eco_rebase_id',string='Previous changed',readonly=True)
+    previous_change_ids=fields.One2many('mrp.plm.eco.bom.change','rebase_id',string='Previous changed',readonly=True)
     product_tmpl_id=fields.Many2one('product.template',string='Article')
     sequence=fields.Char(string='Sequence',required=True,copy=False,readonly=True,default=lambda self:_('New'))
     routing_change_ids=fields.One2many('mrp.plm.eco.routing.change','eco_id',string='Routing change')
@@ -58,13 +58,13 @@ class Eco(Model):
         default='new',
         copy=False,required=True,help="Statut",tracking=True,store=True
         )
-    tag_ids = fields.Many2many(INNER_MODELS['eco.tag'] , 'mrp_plm_eco_tags_rel', 'plm_id', 'tag_id', string='Tags')
+    tag_ids = fields.Many2many('mrp.plm.eco.tag' , 'mrp_plm_eco_tags_rel', 'plm_id', 'tag_id', string='Tags')
     type=fields.Selection([('product','Product only'),('bom','BOM'),('routing','Routing'),('both','Both')],default='product',string='Apply to')
-    type_id=fields.Many2one(INNER_MODELS['eco.type'],'Type',ondelete='restrict',required=True,help="Type",store=True)
+    type_id=fields.Many2one('mrp.plm.eco.type','Type',ondelete='restrict',required=True,help="Type",store=True)
     type_id_name=fields.Char(related='type_id.name',string='Type name')
     user_can_approve=fields.Boolean('Can approve',compute='_compute_user_can_approve',help="User can approve")
     user_can_reject=fields.Boolean('Can reject',compute='_compute_user_can_approve',help="User can reject")
-    user_id=fields.Many2one(INNER_MODELS['res.users'],'Responsible',help="User responsible", default=lambda self: self.env.user, tracking=True)
+    user_id=fields.Many2one('res.users','Responsible',help="User responsible", default=lambda self: self.env.user, tracking=True)
 
     @api.model
     def default_get(self, fields):
@@ -200,7 +200,7 @@ class Eco(Model):
         pass
     def _alias_get_creation_values(self):
         values = super(Eco, self)._alias_get_creation_values()
-        values['alias_model_id'] = self.env['ir.model']._get(INNER_MODELS['eco.stage']).id
+        values['alias_model_id'] = self.env['ir.model']._get('mrp.plm.eco.stage').id
         return values
     #     print('toto')
     def stage_find(self, type_id, domain=[], order='sequence'):

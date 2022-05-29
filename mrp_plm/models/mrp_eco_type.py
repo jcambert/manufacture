@@ -14,7 +14,7 @@ class EcoType(models.Model):
     nb_approvals_my = fields.Integer('My Nb Of Approvals', compute='_compute_nb_approval_my')
     nb_ecos = fields.Integer('Nb Of ECOs', compute='_compute_nb_eco')
     nb_validation = fields.Integer('Nb Of validation', compute='_compute_nb_validation')
-    stage_ids = fields.Many2one('mrp.eco.stage', string='Stages')
+    stage_ids = fields.Many2one('mrp.plm.eco.stage', string='Stages')
 
     def _compute_nb_approval(self):
         for record in self:
