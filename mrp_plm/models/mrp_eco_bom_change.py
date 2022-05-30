@@ -49,35 +49,35 @@ class EcoBomChange(models.Model):
             else:
                 record.operation_change=''
 
-    @api.depends('change_type','product_change','product_qty_change','uom_change')
+    @api.depends('change_type','product_change','upd_product_qty','uom_change')
     def _compute_conflict(self):
         for record in self:
             record.conflict=False
             if record.change_type=='update':
-                if record.product_change and record.product_qty_change and record.uom_change:
+                if record.product_change and record.upd_product_qty and record.uom_change:
                     record.conflict=True
             elif record.change_type=='add':
-                if record.product_change and record.product_qty_change and record.uom_change:
+                if record.product_change and record.upd_product_qty and record.uom_change:
                     record.conflict=True
             elif record.change_type=='remove':
-                if record.product_change and record.product_qty_change and record.uom_change:
+                if record.product_change and record.upd_product_qty and record.uom_change:
                     record.conflict=True
-    @api.constrains('change_type','product_change','product_qty_change','uom_change')
+    @api.constrains('change_type','product_change','upd_product_qty','uom_change')
     def check_conflict(self):
         for record in self:
             if record.conflict:
                 raise ValidationError("Impossible de valider la modification car il y a un conflit")
-    @api.constrains('change_type','product_change','product_qty_change','uom_change')
+    @api.constrains('change_type','product_change','upd_product_qty','uom_change')
     def check_change_type(self):
         for record in self:
             if record.change_type=='update':
-                if not record.product_change and not record.product_qty_change and not record.uom_change:
+                if not record.product_change and not record.upd_product_qty and not record.uom_change:
                     raise ValidationError("Impossible de valider la modification")
             elif record.change_type=='add':
-                if not record.product_change and not record.product_qty_change and not record.uom_change:
+                if not record.product_change and not record.upd_product_qty and not record.uom_change:
                     raise ValidationError("Impossible de valider la modification")
             elif record.change_type=='remove':
-                if not record.product_change and not record.product_qty_change and not record.uom_change:
+                if not record.product_change and not record.upd_product_qty and not record.uom_change:
                     raise ValidationError("Impossible de valider la modification")
     @api.constrains('new_operation_id','old_operation_id')
     def check_operation_id(self):
@@ -89,3 +89,11 @@ class EcoBomChange(models.Model):
     def check_product_qty(self):
         for record in self:
             pass
+
+    @api.model
+    def product_change(self):
+        for record in self:
+            if record.product_id:
+                record.product_change=True
+            else:
+                record.product_change=False
