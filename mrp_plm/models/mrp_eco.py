@@ -19,6 +19,7 @@ class Eco(models.Model):
         return self.stage_find(type_id, [('fold', '=', False), ('final_stage', '=', False)])
 
     allow_apply_change=fields.Boolean('Allow apply change',compute='_compute_allow_apply_change',help="Show allowed apply changes")
+    allow_change_kanban_state=fields.Boolean('Allow change kanban state',compute='_compute_allow_change_kanban_state',help="Show allowed change kanban state")
     allow_change_stage=fields.Boolean('Allow change state', compute='_compute_allow_change_state', help="Allowing changing state")
     approval_ids=fields.One2many('mrp.plm.eco.approval','eco_id',help="validation approvals")
     bom_change_ids=fields.One2many('mrp.plm.eco.bom.change','eco_id',readonly=True,help='OMT Modification')
@@ -32,6 +33,10 @@ class Eco(models.Model):
     effectivity=fields.Selection([('asap','Asap'),('date','to date')],'Effective date ',help="Date to do task",default='asap')
     effectivity_date=fields.Date('Effective date')
     
+    legend_blocked = fields.Char(related='stage_id.legend_blocked', readonly=True)
+    legend_done = fields.Char(related='stage_id.legend_done', readonly=True)
+    legend_normal=fields.Char(related='stage_id.legend_normal', readonly=True)
+
     mrp_document_count=fields.Integer('Attached document Nb',compute='_compute_mrp_document_count')
     mrp_document_ids=fields.One2many('mrp.document', 'res_id',help='Attached documents')
     my_activity_date_deadline=fields.Date('My effective date',help="My effective date dead line",readonly=True)
@@ -50,7 +55,7 @@ class Eco(models.Model):
         default=_get_default_stage_id,
         group_expand='_read_group_stage_names',
         index=True, tracking=True,copy=False,readonly=False, store=True,
-        domain="[ ('type_id', '=', type_id)]"
+        domain="[ ('type_ids', 'in', type_id)]"
         )
     state=fields.Selection(
         [('new','New'), ('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('rejected','Rejected')],
@@ -234,3 +239,7 @@ class Eco(models.Model):
             domain=[]
         stages_ids=stages.search(domain,order=order)
         return stages_ids
+
+    def _compute_allow_change_kanban_state(self):
+        for record in self:
+            record.allow_change_kanban_state=True

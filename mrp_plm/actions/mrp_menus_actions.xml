@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="mrp_eco_action_main" model="ir.actions.act_window">
+            <field name="name">Updates</field>
+            <field name="res_model">mrp.plm.eco</field>
+            <field name="view_mode">kanban,tree,calendar,pivot,graph,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_neutral_face">
+                This is the ECO view
+                </p>
+            </field>
+        </record>
+
+        <record id="mrp_eco_type_action_form" model="ir.actions.act_window">
+            <field name="name">OMT Types</field>
+            <field name="res_model">mrp.plm.eco.type</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_neutral_face">
+                This is the ECO Type view
+                </p>
+                <p>
+            You must create ECO Type in order to use this view.
+                </p>
+            </field>
+        </record>
+        <record id="mrp_eco_open_type_dashboard_kanban" model="ir.actions.act_window">
+            <field name="name">Overview</field>
+            <field name="res_model">mrp.plm.eco.type</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="mrp_plm.mrp_eco_type_dashboard_view_kanban"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_neutral_face">
+                This is the ECO Type overview
+                </p>
+                <p>
+            You must create ECO Type in order to use this view.
+                    <a type="action" name="%(mrp_eco_type_action_form)d" tabindex="-1">Browse available ECO Type.</a>
+                </p>
+            </field>
+        </record>
+        <record id="mrp_eco_bom_action_kanban" model="ir.actions.act_window">
+            <field name="name">BOM</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+
+        </record>
+
+        <record id="mrp_eco_action_report" model="ir.actions.act_window">
+            <field name="name">OMT</field>
+            <field name="res_model">mrp.plm.eco</field>
+            <field name="view_mode">graph,pivot</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+
+        </record>
+
+        <record id="mrp_eco_stage_action" model="ir.actions.act_window">
+            <field name="name">OMT Stage</field>
+            <field name="res_model">mrp.plm.eco.stage</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+
+        </record>
+
+        <record id="mrp_eco_tag_action" model="ir.actions.act_window">
+            <field name="name">OMT Tag</field>
+            <field name="res_model">mrp.plm.eco.tag</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="mrp_plm_menu" name="Lifecycle managment" sequence="170" web_icon="mrp_plm,static/description/icon.png">
+        <menuitem id="mrp_plm_overview_menu" name="Overview" action="mrp_eco_open_type_dashboard_kanban" sequence="5"/>
+        <menuitem id="mrp_plm_updates_menu" name="Updates" action="mrp_eco_action_main" sequence="10"/>
+        <menuitem id="mrp_plm_datas_menu" name="Datas" sequence="15">
+            <menuitem id="mrp_plm_product_menu" name="Products" sequence="5" action="product.product_template_action" />
+            <menuitem id="mrp_plm_nomenclature_menu" name="BOM" sequence="10" action="mrp_eco_bom_action_kanban" />
+            <menuitem id="mrp_plm_workcenter_menu" name="Workcenter" sequence="20" action="mrp.mrp_workcenter_action" />
+        </menuitem>
+        <menuitem id="mrp_plm_seach_menu" name="Search" sequence="20"/>
+        <menuitem id="mrp_plm_analyse_menu" name="Analyse" sequence="25">
+            <menuitem id="mrp_plm_analyse_omt_menu" name="OMT" sequence="10" action="mrp_plm.mrp_eco_action_report"/>
+        </menuitem>
+        <menuitem id="model_name_config_menu" name="Configuration" sequence="30">
+            <menuitem id="mrp_plm_stage_config_menu" name="OMT Stages" sequence="10" action="mrp_eco_stage_action"/>
+            <menuitem id="mrp_plm_type_config_menu" name="OMT Types" sequence="20" action="mrp_eco_type_action_form"/>
+            <menuitem id="mrp_plm_tag_config_menu" name="OMT Tag" sequence="30" action="mrp_eco_tag_action"/>
+        </menuitem>
+    </menuitem>
+
+</odoo>

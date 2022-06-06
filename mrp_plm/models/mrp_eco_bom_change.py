@@ -37,7 +37,7 @@ class EcoBomChange(models.Model):
             else:
                 record.uom_change=''
 
-    @api.depends('new_operation_id','old_operation_id')
+    #@api.depends('new_operation_id','old_operation_id')
     def _compute_operation_change(self):
         for record in self:
             if record.new_operation_id and record.old_operation_id:
@@ -49,7 +49,7 @@ class EcoBomChange(models.Model):
             else:
                 record.operation_change=''
 
-    @api.depends('change_type','product_change','upd_product_qty','uom_change')
+    #@api.depends('change_type','product_change','upd_product_qty','uom_change')
     def _compute_conflict(self):
         for record in self:
             record.conflict=False
@@ -62,12 +62,12 @@ class EcoBomChange(models.Model):
             elif record.change_type=='remove':
                 if record.product_change and record.upd_product_qty and record.uom_change:
                     record.conflict=True
-    @api.constrains('change_type','product_change','upd_product_qty','uom_change')
+   # @api.constrains('change_type','product_change','upd_product_qty','uom_change')
     def check_conflict(self):
         for record in self:
             if record.conflict:
                 raise ValidationError("Impossible de valider la modification car il y a un conflit")
-    @api.constrains('change_type','product_change','upd_product_qty','uom_change')
+    #@api.constrains('change_type','product_change','upd_product_qty','uom_change')
     def check_change_type(self):
         for record in self:
             if record.change_type=='update':

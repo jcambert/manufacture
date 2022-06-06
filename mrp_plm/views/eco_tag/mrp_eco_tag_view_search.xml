@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_eco_tag_view_search" model="ir.ui.view">
+        <field name="name">mrp.ecp.tag.view.search</field>
+        <field name="model">mrp.plm.eco.tag</field>
+        <field name="arch" type="xml">
+            <search string="Mrp Eco Tags">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

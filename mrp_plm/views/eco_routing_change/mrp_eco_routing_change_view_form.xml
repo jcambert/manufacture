@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_eco_routing_change_view_form" model="ir.ui.view">
+        <field name="name">mrp.eco.routing.change.view.form</field>
+        <field name="model">mrp.plm.eco.routing.change</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Duration">
+                        <field name="upd_time_cycle_manual" widget="plm_upd_qty"/>
+                        <field name="old_time_cycle_manual"/>
+                        <field name="new_time_cycle_manual"/>
+                    </group>
+                    <group string="ECO details">
+                        <field name="change_type"/>
+                        <field name="workcenter_id"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>

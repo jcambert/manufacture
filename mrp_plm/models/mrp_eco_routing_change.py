@@ -6,6 +6,7 @@ class EcoRoutingChange(models.Model):
     _name='mrp.plm.eco.routing.change'
     _description='Eco Routing Change'
     
+    change_type=fields.Selection([('add','Add'),('remove','Remove'),('update','Update')],string='Change Type',required=True)
     eco_id=fields.Many2one('mrp.plm.eco',ondelete='restrict',string="ECO")
     new_time_cycle_manual=fields.Float('New Time Cycle (Manual)')
     old_time_cycle_manual=fields.Float('Old Time Cycle (Manual)')

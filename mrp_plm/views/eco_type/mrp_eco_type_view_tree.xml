@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_eco_type_view_tree" model="ir.ui.view">
+        <field name="name">mrp.eco.type.view.tree</field>
+        <field name="model">mrp.plm.eco.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

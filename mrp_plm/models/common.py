@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api,_
 from odoo.exceptions import UserError, ValidationError
 from random import randint
 
@@ -11,6 +11,7 @@ class BaseArchive(models.AbstractModel):
     def do_archive(self):
         for rec in self:
             rec.active = True
+
 class BaseSequence(models.AbstractModel):
     _name='sequence.mixin'
     _description='Sequence Mixin'
@@ -24,10 +25,13 @@ class BaseSequence(models.AbstractModel):
     @api.model
     def create(self,vals):
         seq=self.seq_next_by_code()
-        if vals.get('sequence',_('New'))==_('New'):
-            vals['sequence']=(seq or _('New')) 
-        elif seq:
+        if int(self.sequence)==self.sequence:
             vals['sequence']=seq
+        else:
+            if vals.get('sequence',_('New'))==_('New'):
+                vals['sequence']=(seq or _('New')) 
+            elif seq:
+                vals['sequence']=seq
         res=super(BaseSequence,self).create(vals)
         return res
 
@@ -53,6 +57,13 @@ class BaseKanbanState(models.AbstractModel):
         ('done', 'Ready'),
         ('blocked', 'Blocked')], string='Kanban State',
         copy=False, default='normal', required=True)
+    kanban_state_label=fields.Char(compute='_compute_kanban_state_label', string='Kanban State Label', copy=False)
+    
+    
+
+    def _compute_kanban_state_label(self):
+        for rec in self:
+            rec.kanban_state_label=rec.kanban_state
 
 class BasePriority(models.AbstractModel):
     _name='priority.mixin'

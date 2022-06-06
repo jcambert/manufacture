@@ -1,5 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mrp_eco_type_manager,mrp_plm.mrp.plm.eco.type,model_mrp_plm_eco_type,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
-access_mrp_eco_type,mrp_plm.mrp.plm.eco.type,model_mrp_plm_eco_type,mrp_plm.group_mrp_plm_eco_user,1,0,0,0
-access_mrp_eco_tag_manager,mrp_plm.mrp.plm.eco.tag,model_mrp_plm_eco_tag,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
-access_mrp_eco_tag,mrp_plm.mrp.plm.eco.tag,model_mrp_plm_eco_tag,mrp_plm.group_mrp_plm_eco_user,1,1,1,1
+mrp_plm.access_mrp_eco_user,mrp_plm.mrp.plm.eco,model_mrp_plm_eco,mrp_plm.group_mrp_plm_eco_user,1,1,1,1
+mrp_plm.access_mrp_eco_type_manager,mrp_plm.mrp.plm.eco.type,model_mrp_plm_eco_type,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
+mrp_plm.access_mrp_eco_type_user,mrp_plm.mrp.plm.eco.type,model_mrp_plm_eco_type,mrp_plm.group_mrp_plm_eco_user,1,,,
+mrp_plm.access_model_mrp_eco_approval_template_manager,mrp_plm.mrp.plm.eco.approval.template,model_mrp_plm_eco_approval_template,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
+mrp_plm.access_model_mrp_eco_approval_template_user,mrp_plm.mrp.plm.eco.approval.template,model_mrp_plm_eco_approval_template,mrp_plm.group_mrp_plm_eco_user,1,,,
+mrp_plm.access_model_mrp_eco_approval_user,mrp_plm.mrp.plm.eco.approval,model_mrp_plm_eco_approval,mrp_plm.group_mrp_plm_eco_user,1,1,1,1
+mrp_plm.access_model_mrp_eco_stage_manager,mrp_plm.mrp.plm.eco.stage,model_mrp_plm_eco_stage,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
+mrp_plm.access_model_mrp_eco_stage_user,mrp_plm.mrp.plm.eco.stage,model_mrp_plm_eco_stage,mrp_plm.group_mrp_plm_eco_user,1,,,
+mrp_plm.access_mrp_eco_tag_manager,mrp_plm.mrp.plm.eco.tag,model_mrp_plm_eco_tag,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
+mrp_plm.access_mrp_eco_tag_user,mrp_plm.mrp.plm.eco.tag,model_mrp_plm_eco_tag,mrp_plm.group_mrp_plm_eco_user,1,1,1,1

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_eco_view_graph" model="ir.ui.view">
+        <field name="name">mrp.eco.view.graph</field>
+        <field name="model">mrp.plm.eco</field>
+        <field name="arch" type="xml">
+            <graph string="ECO Analysis" sample="1">
+                <field name="stage_id"/>
+                <field name="product_tmpl_id"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

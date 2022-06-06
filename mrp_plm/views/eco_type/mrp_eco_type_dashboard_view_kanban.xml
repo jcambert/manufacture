@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_eco_type_dashboard_view_kanban" model="ir.ui.view">
+        <field name="name">mrp.eco.type.view.kanban</field>
+        <field name="model">mrp.plm.eco.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_mrp_plm_kanban" create="0">
+                <field name="name"/>
+                <field name="alias_id"/>
+                <field name="alias_name"/>
+                <field name="alias_domain"/>
+                <field name="nb_validation"/>
+                <field name="nb_approvals"/>
+                <field name="nb_approvals_my"/>
+                <field name="nb_ecos"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}">
+                            <span class="oe_kanban_color_help" t-attf-title="In #{kanban_getcolorname(record.color.raw_value)}" role="img" t-attf-aria-label="In #{kanban_getcolorname(record.color.raw_value)}"/>
+                            <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                    <div t-if="record.alias_name.value and record.alias_domain.value">
+                                        <small><i class="fa fa-envelope-o" role="img" aria-label="Domain alias" title="Domain alias"/>&amp;nbsp; <field name="alias_id"/></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="307" type="action">
+                                            <span><t t-esc="record.nb_ecos.value"/> Engineering Changes</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-6 o_kanban_primary_right">
+                                        <div t-if="record.nb_approvals_my.raw_value &gt; 0" class="row">
+                                            <div class="col-9">
+                                                <a class="oe_kanban_stock_picking_type_list" name="308" type="action">
+                                                    My Validations
+                                                </a>
+                                            </div>
+                                            <div class="col-3">
+                                                <field name="nb_approvals_my"/>
+                                            </div>
+                                        </div>
+
+                                        <div t-if="record.nb_approvals.raw_value &gt; 0" class="row">
+                                            <div class="col-9">
+                                                <a class="oe_kanban_stock_picking_type_list" name="309" type="action">
+                                                    All Validations
+                                                </a>
+                                            </div>
+                                            <div class="col-3">
+                                                <field name="nb_approvals"/>
+                                            </div>
+                                        </div>
+                                        <div t-if="record.nb_validation.raw_value &gt; 0" class="row">
+                                            <div class="col-9">
+                                                <a class="oe_kanban_stock_picking_type_list" name="310" type="action">
+                                                    To Apply
+                                                </a>
+                                            </div>
+                                            <div class="col-3">
+                                                <field name="nb_validation"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                <div t-if="widget.editable" role="menuitem">
+                                    <a class="dropdown-item pl-0" type="edit">Configuration</a>
+                                </div>
+                                <div t-if="widget.editable" role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">
+                                    <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                </div>
+                            </div>
+                            <a class="o_kanban_manage_toggle_button o_left" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>
