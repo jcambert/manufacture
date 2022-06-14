@@ -8,3 +8,4 @@ from . import mrp_eco_type
 from . import mrp_eco
 from . import mrp_eco_bom_change
 from . import mrp_eco_routing_change
+from . import product

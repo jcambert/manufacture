@@ -11,12 +11,12 @@ class Eco(models.Model):
     
     _order = "sequence, name, id"
     _check_company_auto = True
-
+    _sequence_name='mrp.plm.eco'
     def _get_default_stage_id(self):
         """ Gives default stage_id """
         type_id = self.env.context.get(DEFAULT_TYPE_ID) or False
         
-        return self.stage_find(type_id, [('fold', '=', False), ('final_stage', '=', False)])
+        return self.stage_find(type_id, [('folded', '=', False), ('final_stage', '=', False)])
 
     allow_apply_change=fields.Boolean('Allow apply change',compute='_compute_allow_apply_change',help="Show allowed apply changes")
     allow_change_kanban_state=fields.Boolean('Allow change kanban state',compute='_compute_allow_change_kanban_state',help="Show allowed change kanban state")
@@ -41,12 +41,13 @@ class Eco(models.Model):
     mrp_document_ids=fields.One2many('mrp.document', 'res_id',help='Attached documents')
     my_activity_date_deadline=fields.Date('My effective date',help="My effective date dead line",readonly=True)
     name=fields.Char('Name',required=True)
+    full_name=fields.Char('Name',compute='_compute_full_name')
     new_bom_id = fields.Many2many('mrp.bom')
     new_bom_revision=fields.Integer('BOM revision')
     note=fields.Text('Internal Notes')
     previous_change_ids=fields.One2many('mrp.plm.eco.bom.change','rebase_id',string='Previous changed',readonly=True)
     product_tmpl_id=fields.Many2one('product.template',string='Article')
-    sequence=fields.Char(string='Sequence',required=True,copy=False,readonly=True,default=lambda self:_('New'))
+    sequence=fields.Char(string='Sequence',required=True,copy=False,readonly=True,default=lambda self:_('Ne w'))
     routing_change_ids=fields.One2many('mrp.plm.eco.routing.change','eco_id',string='Routing change')
     stage_id=fields.Many2one('mrp.plm.eco.stage' ,
         ondelete='restrict',
@@ -57,10 +58,11 @@ class Eco(models.Model):
         index=True, tracking=True,copy=False,readonly=False, store=True,
         domain="[ ('type_ids', 'in', type_id)]"
         )
+    stage_name=fields.Char(related='stage_id.name',string='Stage name')
     state=fields.Selection(
-        [('new','New'), ('draft','Draft'),('confirmed','Confirmed'),('done','Done'),('rejected','Rejected')],
+        [('confirmed','Confirmed'), ('progress','Progress'),('rebase','Rebase'),('conflict','Conflict'),('done','Done')],
         string='State',
-        default='new',
+        default='confirmed',
         copy=False,required=True,help="Statut",tracking=True,store=True
         )
     tag_ids = fields.Many2many('mrp.plm.eco.tag' , 'mrp_plm_eco_tags_rel', 'plm_id', 'tag_id', string='Tags')
@@ -76,35 +78,42 @@ class Eco(models.Model):
         vals = super(Eco, self).default_get(fields)
         return vals
 
+    def name_get(self):
+        return [(eco.id, '%s:%s' % (eco.sequence, eco.name ) ) for eco in self]
 
     @api.model
     def create(self, vals):
-        if 'state' in vals and vals['state']=='new':
-            vals['state']='draft'
-            # vals['kanban_state']='done'
+        
         res= super(Eco,self).create(vals)
         if res and 'stage_id' in vals:
-            self.createApprovals(res.id, vals['stage_id'])
+            self.createApprovals(res.id, vals['stage_id'],res.type_id.id)
             self.flush()
         return res
 
     
     def write(self,vals):
-        
-            
         res = super(Eco,self).write(vals)
         return res
 
+    def _compute_full_name(self):
+        for eco in self:
+            eco.full_name='%s:%s' % (eco.sequence, eco.name )
+
     @api.model
-    def createApprovals(self,eco_id,stage_id):
-        stage=self._eco_stage.browse(stage_id)
-        if stage.exists():
-            for t in stage.approval_template_ids:
-                self._eco_approval.create({
-                'approval_template_id':t.id,
-                'eco_id':eco_id,
-                'template_stage_id':stage.id
-                })
+    def createApprovals(self,eco_id,stage_id,type_id):
+        stage=self.env['mrp.plm.eco.stage'].search([('id','=',stage_id), ('type_ids','=',type_id)])
+        if stage :
+            print('stage',stage.name)
+            for approval in stage.approval_template_ids:
+                self.env['mrp.plm.eco.approval'].create({'eco_id':eco_id,'template_stage_id':approval.stage_id.id,'approval_template_id':approval.id})
+        return
+        #if stage.exists():
+        #    for t in stage.approval_template_ids:
+        #        self.env['mrp.plm.eco.approval'].create({
+        #        'approval_template_id':t.id,
+        #        'eco_id':eco_id,
+        #        'template_stage_id':stage.id
+        #        })
     @api.model
     def default_get(self, default_fields):
         vals = super(Eco, self).default_get(default_fields)
@@ -114,8 +123,12 @@ class Eco(models.Model):
     @api.depends('type_id')
     def _compute_stage_id(self):
         for eco in self:
-            eco.stage_id = eco.stage_find(eco.id, [('fold', '=', False), ('final_stage', '=', False)])
+            eco.stage_id = eco.stage_find(eco.id, [('folded', '=', False), ('final_stage', '=', False)])
             
+    @api.depends('state','kanban_state')
+    def _compute_allow_change_state(self):
+        for eco in self:
+            eco.allow_change_state=(eco.state=='progress' and eco.kanban_state=='done') 
 
     def _compute_mrp_document_count(self):
         for record in self:
@@ -123,11 +136,26 @@ class Eco(models.Model):
 
     def _compute_allow_apply_change(self):
         for record in self:
-            self.allow_apply_change,self.allow_change_stage=True,True
+            self.allow_apply_change,self.allow_change_stage=False,False
 
     
-    @api.depends('state','stage_id','approval_ids','approval_ids.status')
+    @api.depends('state','stage_id','approval_ids','approval_ids.status','kanban_state')
     def _compute_user_can_approve(self):
+        for record in self:
+            record.user_can_approve=False
+            record.user_can_reject=False
+            if not record.approval_ids.need_approvals():
+                continue
+            if(record.kanban_state=='normal'):
+                record.user_can_approve=True
+                record.user_can_reject=True
+            elif(record.kanban_state=='done'):
+                record.user_can_approve=False
+                record.user_can_reject=True
+            elif (record.state=='blocked'):
+                record.user_can_approve=True
+                record.user_can_reject=False
+        return
         for record in self:
             if record.state not in ('new','draft','done','rejected'):
                 
@@ -144,34 +172,41 @@ class Eco(models.Model):
                 record.kanban_state='done'
     @api.onchange('stage_id')
     def on_stage_change(self):
-        def restore(record):
-            record.stage_id=record._origin.stage_id
-        self.ensure_one()
-        if  self.state=='new':
+        
+        if len(self.ids)==0:
             return
+        self.ensure_one()
 
-        if self.state=='draft':
-            restore(self)
-            raise UserError("You must start revision before changing state")
             
         #Approve if needed
-        if self._origin.user_can_approve:
-            self._origin.approve()
-        else:
-            raise UserError("You are not able to approve this stage")
+        #if self._origin.user_can_approve:
+        #    self._origin.approve()
+        #else:
+        #    raise UserError("You are not able to approve this stage")
         #if another approval needed, raise error=> cannot change stage
-        self._origin.flush()
+        #self._origin.flush()
         if self._origin.approval_ids.need_approvals():
-            restore(self)
-            raise UserError("Another approval is needed")
+            # restore(self)
+            raise UserError("You cannot step into this stage.Approval is needed")
+
 
         #create new approvals if needed    
-        self.createApprovals(self._origin.id,self.stage_id.id)
+        self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id) 
+        
+        if not self.approval_ids.need_approvals():
+            self.kanban_state='done'
+            return
 
     def action_new_revision(self):
         self.ensure_one()
-        if self.state=='draft':
-            self.state='confirmed'
+        if self.state=='confirmed':
+            self.write({'state':'progress','kanban_state':'normal'})
+            self.user_can_approve=True
+            self.user_can_reject=True
+        return True
+
+
+    
     def apply_rebase(self):
         pass
     def conflict_resolve(self):
@@ -224,19 +259,24 @@ class Eco(models.Model):
                 type_ids.add(eco.type_id.id)
         # eco_ids.extend(self.mapped('plm_id').ids)
         if type_ids:
-            search_domain = [ ('type_id', 'in', list(type_ids))]
+            search_domain = [ ('type_ids', 'in', list(type_ids))]
         else:
-            search_domain = [('type_id', '=', False)]
+            search_domain = [('type_ids', '=', False)]
 
         if domain:
             search_domain += list(domain)
         # perform search, return the first found
-        return self._eco_stage.search(search_domain, order=order, limit=1).id
+        res=self.env['mrp.plm.eco.stage'].search(search_domain, order=order, limit=1)
+        return res.id if res else False
+        #return self.env['mrp.plm.eco.stage'].search(search_domain, order=order, limit=1).id
 
     def _read_group_stage_names(self, stages, domain, order):
         type_id = self.env.context.get(DEFAULT_TYPE_ID) or False
+
+        #TO CHECK: why domain filter is not working 
         if not type_id:
             domain=[]
+        domain=[]
         stages_ids=stages.search(domain,order=order)
         return stages_ids
 

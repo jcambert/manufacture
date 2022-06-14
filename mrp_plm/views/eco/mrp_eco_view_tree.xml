@@ -9,7 +9,7 @@
                 <header>
                     <button name="action_apply" type="object" string="Apply Changes"/>
                 </header>
-                <field name="name"/>
+                <field name="full_name"/>
                 <field name="product_tmpl_id" optional="hide"/>
                 <field name="bom_id"/>
                 <field name="user_id" widget="many2one_avatar_user"/>

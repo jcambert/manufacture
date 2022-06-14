@@ -30,14 +30,14 @@
                             <div class="container o_kanban_card_content">
                                 <div class="row">
                                     <div class="col-6 o_kanban_primary_left">
-                                        <button class="btn btn-primary" name="307" type="action">
+                                        <button class="btn btn-primary" name="%(mrp_eco_action)d" type="action">
                                             <span><t t-esc="record.nb_ecos.value"/> Engineering Changes</span>
                                         </button>
                                     </div>
                                     <div class="col-6 o_kanban_primary_right">
                                         <div t-if="record.nb_approvals_my.raw_value &gt; 0" class="row">
                                             <div class="col-9">
-                                                <a class="oe_kanban_stock_picking_type_list" name="308" type="action">
+                                                <a class="oe_kanban_stock_picking_type_list" name="%(mrp_eco_action_approval_my)d" type="action">
                                                     My Validations
                                                 </a>
                                             </div>
@@ -48,7 +48,7 @@
 
                                         <div t-if="record.nb_approvals.raw_value &gt; 0" class="row">
                                             <div class="col-9">
-                                                <a class="oe_kanban_stock_picking_type_list" name="309" type="action">
+                                                <a class="oe_kanban_stock_picking_type_list" name="%(mrp_eco_action_approval)d" type="action">
                                                     All Validations
                                                 </a>
                                             </div>
@@ -58,7 +58,7 @@
                                         </div>
                                         <div t-if="record.nb_validation.raw_value &gt; 0" class="row">
                                             <div class="col-9">
-                                                <a class="oe_kanban_stock_picking_type_list" name="310" type="action">
+                                                <a class="oe_kanban_stock_picking_type_list" name="%(mrp_eco_action_late)d" type="action">
                                                     To Apply
                                                 </a>
                                             </div>

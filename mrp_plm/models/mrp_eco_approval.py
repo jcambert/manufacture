@@ -6,7 +6,9 @@ class EcoApproval(models.Model):
     _name='mrp.plm.eco.approval'
     _description='Eco Approval'
     _inherits = {'mrp.plm.eco.approval.template': 'approval_template_id'}
+    _inherit=['sequence.mixin']
     _order="sequence desc,id"
+    _sequence_name='mrp.plm.eco.approval'
     approval_date=fields.Datetime('Approval date')
     approval_template_id=fields.Many2one('mrp.plm.eco.approval.template',"Approval template",auto_join=True,index=True, ondelete='cascade',required=True,help="Approval template")
     awaiting_my_validation=fields.Boolean('Awaiting my validation',compute='_compute_awaiting_my_validation',store=True)
@@ -24,6 +26,11 @@ class EcoApproval(models.Model):
         ('rejected','Rejected')],'Statut',default='none',required=True)
     template_stage_id=fields.Many2one('mrp.plm.eco.stage',string='Validation stage')
     user_id=fields.Many2one('res.users','Approuvé par')
+
+    @api.model
+    def create(self, vals):
+        res= super(EcoApproval,self).create(vals)
+        return res
 
     @api.model
     @api.returns('bool')
@@ -57,7 +64,9 @@ class EcoApproval(models.Model):
     @api.model
     @api.returns('bool')
     def need_approvals(self):
-        return len(self.filtered(lambda r: not r.is_closed))>0
+        res= len(self.filtered(lambda r: not r.is_closed))>0
+        return res
+    
 
     @api.depends('status','required_user_ids')
     def _compute_status(self):

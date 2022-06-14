@@ -41,7 +41,8 @@ class EcoType(models.Model):
 
     def _compute_nb_validation(self):
         for record in self:
-            record.nb_validation = 0
+            res=10
+            record.nb_validation = res
 
     def _alias_get_creation_values(self):
         values = super(EcoType, self)._alias_get_creation_values()

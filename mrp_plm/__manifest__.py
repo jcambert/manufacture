@@ -29,8 +29,15 @@
 
     # always loaded
     'data': [
+        'data/ir_sequence_data.xml',
         'security/plm_security.xml',
         'security/ir.model.access.csv',
+        'actions/mrp_menus_actions.xml',
+        'actions/mrp_eco_action.xml',
+        'actions/mrp_eco_action_product_tmpl.xml',
+        'actions/mrp_eco_action_approval_my.xml',
+        'actions/mrp_eco_action_approval.xml',
+        'actions/mrp_eco_action_late.xml',
         'views/eco/mrp_eco_kanban.xml',
         'views/eco/mrp_eco_search.xml',
         'views/eco/mrp_eco_view_calendar.xml',
@@ -49,7 +56,8 @@
         'views/eco_type/mrp_eco_type_view_kanban.xml',
         'views/eco_type/mrp_eco_type_view_tree.xml',
         'views/eco_type/mrp_eco_type_dashboard_view_kanban.xml',
-        'actions/mrp_menus_actions.xml',
+        'views/product/product_template_view_form_inherit_plm.xml',
+        
         'menus/mrp_menu.xml',
     ],
     'qweb': ['static/src/xml/*.xml'],

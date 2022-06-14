@@ -9,3 +9,7 @@ mrp_plm.access_model_mrp_eco_stage_manager,mrp_plm.mrp.plm.eco.stage,model_mrp_p
 mrp_plm.access_model_mrp_eco_stage_user,mrp_plm.mrp.plm.eco.stage,model_mrp_plm_eco_stage,mrp_plm.group_mrp_plm_eco_user,1,,,
 mrp_plm.access_mrp_eco_tag_manager,mrp_plm.mrp.plm.eco.tag,model_mrp_plm_eco_tag,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
 mrp_plm.access_mrp_eco_tag_user,mrp_plm.mrp.plm.eco.tag,model_mrp_plm_eco_tag,mrp_plm.group_mrp_plm_eco_user,1,1,1,1
+mrp_plm.access_mrp_eco_bom_change_manager,mrp_plm.mrp.plm.eco.bom.change,model_mrp_plm_eco_bom_change,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
+mrp_plm.access_mrp_eco_bom_change_user,mrp_plm.mrp.plm.eco.bom.change,model_mrp_plm_eco_bom_change,mrp_plm.group_mrp_plm_eco_user,1,1,1,1
+mrp_plm.access_mrp_eco_routing_change_manager,mrp_plm.mrp.plm.eco.routing.change,model_mrp_plm_eco_routing_change,mrp_plm.group_mrp_plm_eco_manager,1,1,1,1
+mrp_plm.access_mrp_eco_routing_change_user,mrp_plm.mrp.plm.eco.routing.change,model_mrp_plm_eco_routing_change,mrp_plm.group_mrp_plm_eco_user,1,1,1,1

@@ -9,6 +9,7 @@ class EcoStage(models.Model):
     _description = 'Eco Stage'
     _inherit = ['sequence.mixin']
     _order = "sequence, id"
+    _sequence_name='mrp.plm.eco.stage'
     allow_apply_change = fields.Boolean('Allow apply changes', help='Is this step allowing made changes')
     approval_roles = fields.Char('Approval Roles', compute='_compute_approval_roles', store=True)
     approval_template_ids=fields.One2many('mrp.plm.eco.approval.template','stage_id',string="Stage Templates")

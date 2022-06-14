@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_eco_action_product_tmpl" model="ir.actions.act_window">
+        <field name="name">OMT</field>
+        <field name="res_model">mrp.plm.eco</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_tmpl_id', '=', active_id)]</field>
+        <field name="context">{'default_product_tmpl_id': active_id}</field>
+    </record>
+
+</odoo>
