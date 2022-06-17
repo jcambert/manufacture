@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <!-- <record forcecreate="True" model="we.profile.type" id="we_sheetmetal">
+            <field name="name">Tole</field>
+            <field name="product_type">sheetmetal</field>
+            <field name="convention">^(?P&lt;material&gt;\w*)-(?P&lt;thickness&gt;[0-9\.]*)(\+(?P&lt;finition&gt;\w*))*$</field>
+            <field name="calculate_surface_section">value_two * thickness</field>
+            <field name="calculate_surface_per_length">(value_two+thickness)*2000</field> 
+        </record>-->
+        <!--<record forcecreate="True" model="we.profile.type" id="we_sheetmetal_pet">
+            <field name="name">Tole Petit format</field>
+            <field name="length">2000</field>
+            <field name="width">1000</field>
+            <field name="convention">^(?P&lt;material&gt;\w*)-(?P&lt;thickness&gt;[0-9\.]*)(?P&lt;format&gt;pet)(\+(?P&lt;finition&gt;\w*))*$</field>
+            <field name="calculate_surface_section">value_two * thickness</field>
+            <field name="calculate_surface_per_length">(value_two+thickness)*2000</field>
+        </record>
+        <record forcecreate="True" model="we.profile.type" id="we_sheetmetal_moy">
+            <field name="name">Tole Moyen format</field>
+            <field name="length">2500</field>
+            <field name="width">1250</field>
+            <field name="convention">^(?P&lt;material&gt;\w*)-(?P&lt;thickness&gt;[0-9\.]*)(?P&lt;format&gt;moy)(\+(?P&lt;finition&gt;\w*))*$</field>
+            <field name="calculate_surface_section">value_two * thickness</field>
+            <field name="calculate_surface_per_length">(value_two + thickness)*2000</field>
+        </record>
+        <record forcecreate="True" model="we.profile.type" id="we_sheetmetal_gra">
+            <field name="name">Tole Grand format</field>
+            <field name="length">3000</field>
+            <field name="width">1500</field>
+            <field name="convention">^(?P&lt;material&gt;\w*)-(?P&lt;thickness&gt;[0-9\.]*)(?P&lt;format&gt;gra)(\+(?P&lt;finition&gt;\w*))*$</field>
+            <field name="calculate_surface_section">value_two * thickness</field>
+            <field name="calculate_surface_per_length">(value_two + thickness)*2000</field>
+        </record>-->
+        <record forcecreate="True" model="we.profile.type" id="we_profile_type_ipn">
+            <field name="name">IPN</field>
+        </record>
+        <record forcecreate="True" model="we.profile.type" id="we_profile_type_upn">
+            <field name="name">UPN</field>
+        </record>
+        <record forcecreate="True" model="we.profile.type" id="we_profile_type_upe">
+            <field name="name">UPE</field>
+        </record>
+        <record forcecreate="True" model="we.profile.type" id="we_profile_type_hea">
+            <field name="name">HEA</field>
+        </record>
+        <record forcecreate="True" model="we.profile.type" id="we_profile_type_heb">
+            <field name="name">HEB</field>
+        </record>
+
+        <record forcecreate="True" model="we.profile" id="we_profile_ipn_100">
+            <field name="name">100</field>
+            <field name="protype" ref="we_profile_type_ipn"/>
+            <field name="surface_section">0.106</field>
+            <field name="surface_per_length">0.37</field>
+            <field name="weight_per_length">8.3</field>
+
+        </record>
+
+        <record forcecreate="True" model="we.profile" id="we_profile_hea_100">
+            <field name="name">100</field>
+            <field name="protype" ref="we_profile_type_hea"/>
+            <field name="surface_section">21.2</field>
+            <field name="surface_per_length">0.561</field>
+            <field name="weight_per_length">17.1</field>
+
+        </record>
+        <record forcecreate="True" model="we.profile" id="we_profile_hea_120">
+            <field name="name">120</field>
+            <field name="protype" ref="we_profile_type_hea"/>
+            <field name="surface_section">25.3</field>
+            <field name="surface_per_length">0.677</field>
+            <field name="weight_per_length">20.3</field>
+        </record>
+        <record forcecreate="True" model="we.profile" id="we_profile_hea_140">
+            <field name="name">140</field>
+            <field name="protype" ref="we_profile_type_hea"/>
+            <field name="surface_section">31.4</field>
+            <field name="surface_per_length">0.794</field>
+            <field name="weight_per_length">25.2</field>
+        </record>
+    </data>
+</odoo>

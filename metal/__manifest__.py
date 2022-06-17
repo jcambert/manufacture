@@ -24,7 +24,13 @@
 
     # always loaded
     'data': [
-        
+        'security/ir.model.access.csv',
+        'data/uom.xml',
+        'data/product_categories.xml',
+        'data/material.xml',
+        'data/profiles.xml',
+        'data/settings.xml'
+        'data/product_attribute.xml'
     ],
     'qweb': ['static/src/xml/*.xml'],
     # only loaded in demonstration mode

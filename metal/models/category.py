@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api,_,tools
 import re
-class WeProductCategory(models.Model):
+class ProductCategory(models.Model):
     
     _inherit='product.category'
     
@@ -25,7 +25,7 @@ class WeProductCategory(models.Model):
     
     convention=fields.Char('Convention',help="python regex string convention",default='')
     cattype=fields.Selection([('none','None'),('sheetmetal','Sheetmetal'),('profile','Profile')],default='none',string='Type')
-    protype=fields.Selection([('none','None'),('standard','Standard'),('calculated','Calculated')],default='none',string="Profile",domain="[('cattype','=','profile')]")
+    protype=fields.Selection([('none','None'),('standard','Standard'),('calculated','Calculated')],default='none',string="Profile")
     
     surface_uom=fields.Many2one('uom.uom','Surface Unit',required=True,domain="[('category_id','=',surface_uom_categ)]")
     surface_uom_categ=fields.Many2one('uom.category',default=_get_default_surface_uom_categ,store=False,readonly=True)

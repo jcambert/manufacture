@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_metal_material,metal product user,model_metal_material,mrp.group_mrp_manager,1,1,1,1
+access_metal_tag,metal product user,model_metal_tag,mrp.group_mrp_manager,1,1,1,1
+access_metal_profile,metal product user,model_metal_profile,mrp.group_mrp_manager,1,1,1,1
+access_metal_profile_type,metal product user,model_metal_profile_type,mrp.group_mrp_manager,1,1,1,1
