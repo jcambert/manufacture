@@ -11,10 +11,22 @@
             <field name="name">Surface</field>
         </record>
         <record  forcecreate="True" id="product_uom_square_meter" model="uom.uom">
-            <field name="category_id" ref="uom_categ_surface"/>
+            <field name="category_id" ref="metal.uom_categ_surface"/>
             <field name="name">m²</field>
             <field name="factor" eval="1.0"/>
             <field name="uom_type">reference</field>
         </record>
+
+
+        <record  forcecreate="True" id="uom_categ_volmass" model="uom.category">
+            <field name="name">Volumic mass</field>
+        </record>
+        <record  forcecreate="True" id="product_uom_kg_per_m3" model="uom.uom">
+            <field name="category_id" ref="metal.uom_categ_volmass"/>
+            <field name="name">Kg/m3</field>
+            <field name="factor" eval="1.0"/>
+            <field name="uom_type">reference</field>
+        </record>
+        
     </data>
 </odoo>

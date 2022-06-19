@@ -38,19 +38,19 @@
             <field name="uom_id" ref="metal.product_uom_mm"/>
         </record>
         <record forcecreate="True" model="product.attribute.value" id="product_attribute_longueur_xs">
-            <field name="attribute_id" ref="product_attribute_longueur_profile"/>
+            <field name="attribute_id" ref="metal.product_attribute_longueur_profile"/>
             <field name="name">Petit</field>
             <field name="length">1000</field>
             <field name="code_suffixe">-1M</field>
         </record>
         <record forcecreate="True" model="product.attribute.value" id="product_attribute_longueur_md">
-            <field name="attribute_id" ref="product_attribute_longueur_profile"/>
+            <field name="attribute_id" ref="metal.product_attribute_longueur_profile"/>
             <field name="name">Moyen</field>
             <field name="length">3000</field>
             <field name="code_suffixe">-3M</field>
         </record>
         <record forcecreate="True" model="product.attribute.value" id="product_attribute_longueur_xl">
-            <field name="attribute_id" ref="product_attribute_longueur_profile"/>
+            <field name="attribute_id" ref="metal.product_attribute_longueur_profile"/>
             <field name="name">Grand</field>
             <field name="length">6000</field>
             <field name="code_suffixe">-6M</field>

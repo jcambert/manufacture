@@ -11,9 +11,10 @@ class EcoApproval(models.Model):
     _sequence_name='mrp.plm.eco.approval'
     approval_date=fields.Datetime('Approval date')
     approval_template_id=fields.Many2one('mrp.plm.eco.approval.template',"Approval template",auto_join=True,index=True, ondelete='cascade',required=True,help="Approval template")
-    awaiting_my_validation=fields.Boolean('Awaiting my validation',compute='_compute_awaiting_my_validation',store=True)
+    awaiting_my_validation=fields.Boolean('Awaiting my validation',compute='_compute_awaiting_my_validation')
     eco_id=fields.Many2one('mrp.plm.eco','Technical Change',ondelete='cascade',required=True,help="Technical ECO")
     eco_stage_id=fields.Many2one(related="eco_id.stage_id",string="ECO Stage",store=True,help="ECO Stage")
+    is_pending=fields.Boolean('Is pending',compute='_compute_status',store=True,readonly=True)
     is_approved=fields.Boolean("Is approved",compute='_compute_status',store=True,readonly=True)
     is_rejected=fields.Boolean("Is rejected",compute='_compute_status',store=True,readonly=True)
     is_closed=fields.Boolean("Is closed",compute='_compute_status',store=True,readonly=True)
@@ -71,6 +72,7 @@ class EcoApproval(models.Model):
     @api.depends('status','required_user_ids')
     def _compute_status(self):
         for record in self:
+            record.is_pending=record.status=='none'
             record.is_rejected=record.status=='rejected'
             record.is_approved=record.status=='approved'
             record.is_closed=record.is_rejected or record.is_approved or len(record.required_user_ids)==0
@@ -82,6 +84,7 @@ class EcoApproval(models.Model):
                 ids=record.user_ids.mapped('id')
                 record.required_user_ids=[(6,0,ids)]
     
+    @api.depends('status')
     def _compute_awaiting_my_validation(self):
         for record in self:
-            record.awaiting_my_validation=record.status=='none' and record.user_id==self.env.user
+            record.awaiting_my_validation=record.status in ['none'] and self.env.user in record.required_user_ids

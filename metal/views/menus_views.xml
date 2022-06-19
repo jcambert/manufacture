@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <menuitem id="menu_metal_indice" action="metal_indice_action_none" parent="mrp.menu_mrp_bom" name="Indice" sequence="3"/>  -->
+    <menuitem id="menu_metal_material" action="metal_material_action" parent="mrp.menu_mrp_configuration" name="Materials" sequence="997"/> 
+    <menuitem id="menu_metal_profile" action="metal_profile_action" parent="mrp.menu_mrp_configuration" name="Profiles" sequence="998"/> 
+    <menuitem id="menu_metal_profile_type" action="metal_profile_type_action" parent="mrp.menu_mrp_configuration" name="Profile Type" sequence="999"/> 
+</odoo>

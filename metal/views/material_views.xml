@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <record id="metal_product_material_list_view" model="ir.ui.view">
+            <field name="name">metal.material.list.view</field>
+            <field name="model">metal.material</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="volmass" />
+                    <field name="volmass_uom" />
+                    <field name="volmass_uom_categ"  invisible="1" />
+                    <field name="default" />
+                </tree>
+            </field>
+        </record>
+        <record id="metal_product_material_form_view" model="ir.ui.view">
+            <field name="name">metal.material.form.view</field>
+            <field name="model">metal.material</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group >
+                            <group string="Name">
+                                <field name="name"/>
+                            </group>
+
+                            <group string="Common">
+                                <field name="volmass" />
+                                <field name="volmass_uom" />
+                                <field name="volmass_uom_categ" invisible="1"/>
+                                <field name="default" />
+                                <field name="convention" />
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="metal_material_action" model="ir.actions.act_window">
+            <field name="name">Materials</field>
+            <field name="res_model">metal.material</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

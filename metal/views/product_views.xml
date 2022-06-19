@@ -1,0 +1,207 @@
+<odoo>
+  <data>
+
+    <record id="metal_product_template_form_view" model="ir.ui.view">
+      <field name="name">metal.product.form</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+        <data>
+          <div name="button_box" position="inside">
+            <!-- <button class="oe_stat_button" name="action_view_indice" type="object" icon="fa-list-ol">
+              <div class="o_field_widget o_stat_info mr4">
+                <span class="o_stat_text">Indice :</span>
+              </div>
+              <div class="o_field_widget o_stat_info">
+                <span class="o_stat_value">
+                  <field name="current_indice"/>
+                </span>
+              </div>
+            </button> -->
+          </div>
+        </data>
+      </field>
+    </record>
+
+    <record id="metal_product_profile_form_view" model="ir.ui.view">
+      <field name="name">metal.product.profile.form</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+        <data>
+          <xpath expr="//header" position="inside">
+            <button string="Update Weights" type="object" groups="mrp.group_mrp_manager" name="action_update_weight" attrs="{'invisible': ['|',('type', '!=', 'product'),'&amp;',('product_variant_count','>',1),('protype','!=','calculated')]}"/>
+          </xpath>
+          <notebook position="inside">
+            <page name="metal_product_profile" string="Dimensions">
+              <group >
+                <group string="Types" attrs="{'invisible':True}">
+                  <field name="cattype" invisible="0"/>
+                  <field name="protype" invisible="0"/>
+                  <field name="product_variant_count" invisible="0" />
+                </group>
+                <group string="Matiere">
+                  <label for="material"/>
+                  <div>
+                    <field name="material" />
+                  </div>
+                  <label for="finition"/>
+                  <div>
+                    <field name="finition" />
+                  </div>
+                </group>
+                <group string="Dimensions" attrs="{'invisible': ['|',('product_variant_count', '>',1),('cattype','!=','none')]}">
+                  <field name="length" />
+                  <field name="width" />
+                  <field name="height" />
+                  <field name="thickness" />
+                </group>
+                <group string="Dimensions Profilé Standard" attrs="{'invisible': ['|',  ('product_variant_count', '>',1),('protype','!=','standard')]}">
+                  <label for="length">Longueur</label>
+                  <div>
+                    <field name="length" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="weight_per_length" string="weight"/>
+                  <div>
+                    <field name="weight_per_length" />
+                    <field name="weight_uom" nolabel="1" class="oe_inline" style="margin-left:5px;margin-right:2px"/>
+&#47;<field name="surface_uom" nolabel="1" class="oe_inline" style="margin-left:2px"/>
+                  </div>
+                  <label for="surface_per_length" string="Surface"/>
+                  <div>
+                    <field name="surface_per_length" />
+                    <field name="surface_uom" nolabel="1" class="oe_inline" style="margin-left:2px"/>
+&#47;
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:2px"/>
+                  </div>
+                  <label for="surface_section" string="Surface section"/>
+                  <div>
+                    <field name="surface_section"/>
+                    <field name="surface_uom" nolabel="1" class="oe_inline" style="margin-left:2px"/>
+                  </div>
+                </group>
+                <group string="Dimensions Profilé Calcule" attrs="{'invisible': ['|',  ('product_variant_count', '>',1),('protype','!=','calculated')]}">
+                  <label for="length">Longueur</label>
+                  <div>
+                    <field name="length" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="width">Largeur</label>
+                  <div>
+                    <field name="width" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="height">Hauteur</label>
+                  <div>
+                    <field name="height" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="thickness">Epaisseur</label>
+                  <div>
+                    <field name="thickness" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                </group>
+                <group string="Dimensions Tole" attrs="{'invisible': ['|',  ('product_variant_count', '>',1),('cattype','!=','sheetmetal')]}">
+                  <label for="length">Longueur</label>
+                  <div>
+                    <field name="length" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="width">Largeur</label>
+                  <div>
+                    <field name="width" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="thickness">Epaisseur</label>
+                  <div>
+                    <field name="thickness" />
+                    <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                </group>
+                <group string="Informations" attrs="{'invisible': [('product_variant_count', '>', 1)]}">
+                  <label for="surface" />
+                  <div>
+                    <field name="surface" />
+                    <field name="surface_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                  <label for="weight"/>
+                  <div>
+                    <field name="weight" />
+                    <field name="weight_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                  </div>
+                </group>
+              </group>
+            </page>
+          </notebook>
+
+        </data>
+      </field>
+    </record>
+    <record id="metal_product_product_form_view" model="ir.ui.view">
+      <field name="name">metal.product.profile.form</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+          <field name="protype" invisible="1"/>
+          <button string="Update Weight" type="object" groups="mrp.group_mrp_manager" name="action_update_weight" attrs="{'invisible': ['|',('type', '!=', 'product'),('protype','!=','calculated')]}"/>
+        </xpath>
+        <xpath expr="//group[@name='weight']" position="replace">
+          <group name="weight" string="Logistique" attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
+            <field name="material" />
+            <label for="surface"/>
+            <div>
+              <field name="surface"/>
+              <span>
+                <field name="surface_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </span>
+            </div>
+
+            <label for="weight"/>
+            <div>
+              <field name="weight"/>
+              <span>
+                <field name="weight_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </span>
+            </div>
+          </group>
+        </xpath>
+        <xpath expr="//sheet" position="inside">
+          <field name="cattype" invisible="1" />
+          <field name="weight_per_length" invisible="1"/>
+          <group>
+            <group name="dimensions" string="Dimensions">
+              <label for="length"/>
+              <div>
+                <field name="length"/>
+                <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </div>
+              <label for="height" attrs="{'invisible': [('cattype','=','sheetmetal')]}"/>
+              <div attrs="{'invisible': [('cattype','=','sheetmetal')]}">
+                <field name="height"/>
+                <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </div>
+              <label for="width"/>
+              <div>
+                <field name="width"/>
+                <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </div>
+              <label for="thickness"/>
+              <div>
+                <field name="thickness"/>
+                <field name="length_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </div>
+              <label for="weight"/>
+              <div>
+                <field name="weight"/>
+                <field name="weight_uom" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+              </div>
+            </group>
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="metal_product_settings_form_view" model="ir.ui.view">
+            <field name="name">metal.product.settings.form.view.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="60"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="We Product" string="We Product" data-key="metal">
+                        <h2>Configuration des Articles</h2>
+                        <div class="row mt16 o_settings_container" name="managa_mail_campaigns_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="sheetmetal_category"/>
+                                    <div class="text-muted">
+                                        Categorie pour determiner si un article est une tole
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="sheetmetal_category" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="profile_categories"/>
+                                    <div class="text-muted">
+                                        Categories pour determiner si un article est un profile
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="profile_categories" class="o_light_label" widget="many2many_tags"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="component_category"/>
+                                    <div class="text-muted">
+                                        Component Category
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="component_category" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="material_attribute"/>
+                                    <div class="text-muted">
+                                        Material attribute
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="material_attribute" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="thickness_attribute"/>
+                                    <div class="text-muted">
+                                        Thickness attribute
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="thickness_attribute" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="dimension_attribute"/>
+                                    <div class="text-muted">
+                                        Dimension attribute
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="dimension_attribute" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <h2>UOM</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_unite"/>
+                                    <div class="text-muted">
+                                        Unite
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_unite" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_weight"/>
+                                    <div class="text-muted">
+                                        Poids
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_weight" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_time"/>
+                                    <div class="text-muted">
+                                        Temps
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_time" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_length"/>
+                                    <div class="text-muted">
+                                        Longueur
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_length" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_volume"/>
+                                    <div class="text-muted">
+                                        Volume
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_volume" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_volumic_mass"/>
+                                    <div class="text-muted">
+                                        Masse Volumique
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_volumic_mass" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_right_pane">
+                                    <label for="uom_surface"/>
+                                    <div class="text-muted">
+                                        Surface
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="uom_surface" class="o_light_label" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Configuration</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box ">
+                                <div class="o_setting_left_pane">
+                                    <field name="product_name_force_uppercase" class="o_light_label"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="product_name_force_uppercase"/>
+                                    <div class="text-muted">
+                                        Forcer le mode majuscule sur le nom des produits
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_metal_product_settings_configuration" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'metal', 'bin_size': False}</field>
+        </record>
+
+        <!-- ERP-PLM / Configuration -->
+        <!-- <menuitem name="Configuration" id="mass_mailing_configuration" parent="mass_mailing_menu_root" sequence="100" groups="mass_mailing.group_mass_mailing_user"/> -->
+        <!-- <menuitem id="menu_erp_plm_global_settings" name="Settings" parent="menu_mrp_plm_configuration" sequence="0" action="action_mrp_plm_settings_configuration" groups="base.group_system"/> -->
+    </data>
+</odoo>

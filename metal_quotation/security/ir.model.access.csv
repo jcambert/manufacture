@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_quotation_template_user,metal.quotation.template.user,model_metal_quotation_template,metal_quotation.group_metal_quotation_user,1,0,0,0
+access_quotation_template_manager,metal.quotation.template.user,model_metal_quotation_template,metal_quotation.group_metal_quotation_manager,1,1,1,1
+access_quotation_user,metal.quotation.user,model_metal_quotation,metal_quotation.group_metal_quotation_user,1,0,0,0
+access_quotation_manager,metal.quotation.user,model_metal_quotation,metal_quotation.group_metal_quotation_manager,1,1,1,1

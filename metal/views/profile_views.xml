@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <record id="metal_product_profile_list_view" model="ir.ui.view">
+            <field name="name">metal.profile.list.view</field>
+            <field name="model">metal.profile</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="protype" />
+                    <field name="name" />
+                    <field name="weight_per_length" />
+                    <field name="surface_per_length" />
+                    <field name="surface_section" />
+                </tree>
+            </field>
+        </record>
+        <!-- <record id="metal_product_profile_form_view" model="ir.ui.view">
+            <field name="name">metal.profile.form.view</field>
+            <field name="model">metal.profile</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group >
+                            <group>
+                                <field name="name"/>
+                                <field name="type_id" />
+                            </group>
+                            <group>
+                                <field name="surface_section"/>
+                                <field name="surface_meter"/>
+                                <field name="weight_meter"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> -->
+
+        <record id="metal_profile_action" model="ir.actions.act_window">
+            <field name="name">Profile</field>
+            <field name="res_model">metal.profile</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>

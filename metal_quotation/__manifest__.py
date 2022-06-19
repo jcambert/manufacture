@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Helper de tolerie",
+    'name': "Devis Tolerie",
 
     'summary': """
-        Gestion des matieres,
-        Calculs des poids
+        Calcul des prix de revient
             """,
 
     'description': """
-        Addon ERP to manage sheetmetal production
+        Addon ERP to manage sheetmetal quotation
     """,
 
     'author': "We S.A.",
@@ -20,26 +19,13 @@
     'category': 'Productivity',
     'version': '1.0',
     # any module necessary for this one to work correctly
-    'depends': ['base','mrp','product',  'uom','website'],
+    'depends': ['metal'],
 
     # always loaded
     'data': [
+        'security/plm_security.xml',
         'security/ir.model.access.csv',
-        'data/uom.xml',
-        'data/product_categories.xml',
-        'data/material.xml',
-        'data/profiles.xml',
-        'data/settings.xml',
-        'data/product_attribute.xml',
-        'views/product_views.xml',
-        'views/material_views.xml',
-        'views/profile_views.xml',
-        'views/profile_type_views.xml',
-        # 'views/res_config_settings_view.xml',
-        'views/product_attribute_views.xml',
-        'views/product_category_views.xml',
-        'views/menus_views.xml',
-        # 'views/assets.xml',
+       
     ],
     'qweb': ['static/src/xml/*.xml'],
     # only loaded in demonstration mode
@@ -48,6 +34,6 @@
     #Module Installation
     'installable': True,
     'application': True,
-    'auto_install': True,
+    'auto_install': False,
     'license': 'LGPL-3',
 }

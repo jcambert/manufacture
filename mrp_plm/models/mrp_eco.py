@@ -9,7 +9,7 @@ class Eco(models.Model):
     _inherit = ['mail.activity.mixin', 'mail.thread.cc', 'mail.alias.mixin',
                 'archive.mixin', 'sequence.mixin', 'company.mixin', 'color.mixin','kanban.mixin','priority.mixin']
     
-    _order = "sequence, name, id"
+    _order = "sequence , name, id"
     _check_company_auto = True
     _sequence_name='mrp.plm.eco'
     def _get_default_stage_id(self):
@@ -102,11 +102,12 @@ class Eco(models.Model):
     @api.model
     def createApprovals(self,eco_id,stage_id,type_id):
         stage=self.env['mrp.plm.eco.stage'].search([('id','=',stage_id), ('type_ids','=',type_id)])
+        result=[]
         if stage :
             print('stage',stage.name)
             for approval in stage.approval_template_ids:
-                self.env['mrp.plm.eco.approval'].create({'eco_id':eco_id,'template_stage_id':approval.stage_id.id,'approval_template_id':approval.id})
-        return
+                result.append(self.env['mrp.plm.eco.approval'].create({'eco_id':eco_id,'template_stage_id':approval.stage_id.id,'approval_template_id':approval.id}).id)
+        return result
         #if stage.exists():
         #    for t in stage.approval_template_ids:
         #        self.env['mrp.plm.eco.approval'].create({
@@ -144,32 +145,15 @@ class Eco(models.Model):
         for record in self:
             record.user_can_approve=False
             record.user_can_reject=False
-            if not record.approval_ids.need_approvals():
-                continue
-            if(record.kanban_state=='normal'):
+            if any(record.approval_ids.filtered(lambda x: x.awaiting_my_validation)):
                 record.user_can_approve=True
                 record.user_can_reject=True
-            elif(record.kanban_state=='done'):
-                record.user_can_approve=False
-                record.user_can_reject=True
-            elif (record.state=='blocked'):
+            elif any(record.approval_ids.filtered(lambda x: x.status=='rejected')):
                 record.user_can_approve=True
-                record.user_can_reject=False
-        return
-        for record in self:
-            if record.state not in ('new','draft','done','rejected'):
-                
-                record.user_can_approve=record.approval_ids.user_can_approve()
-                record.user_can_reject=record.approval_ids.user_can_reject()
-            else:
-                record.user_can_approve=False
-                record.user_can_reject=False
-            if record.approval_ids.need_approvals():
-                record.kanban_state='normal'
-            elif record.approval_ids.has_rejected():
-                record.kanban_state='blocked'
-            else:
-                record.kanban_state='done'
+            elif any(record.approval_ids.filtered(lambda x: x.status=='approved')):
+                record.user_can_reject=True
+            
+        
     @api.onchange('stage_id')
     def on_stage_change(self):
         
@@ -216,7 +200,13 @@ class Eco(models.Model):
         self.ensure_one()
         if not self.user_can_approve:
             return
-        r=self.approval_ids.approve()
+        eligibles=self.approval_ids.filtered(lambda x: x.is_pending and  self.env.user in x.required_user_ids)
+        if not eligibles:
+            ids=self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id)
+            eligibles=self.env['mrp.plm.eco.approval'].browse(ids)
+        for approval in eligibles:
+            approval.approve()
+        
         self.flush()
         if self.stage_id.final_stage:
             self.state='done'
@@ -226,7 +216,13 @@ class Eco(models.Model):
         self.ensure_one()
         if not self.user_can_reject:
             return
-        r=self.approval_ids.reject()
+        eligibles=self.approval_ids.filtered(lambda x: x.is_pending and  self.env.user in x.required_user_ids)
+        if not eligibles:
+            ids=self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id)
+            eligibles=self.env['mrp.plm.eco.approval'].browse(ids)
+        for approval in eligibles:
+            approval.reject()
+        
         self.flush()
         if self.stage_id.final_stage:
             self.state='rejected'

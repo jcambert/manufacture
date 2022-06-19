@@ -23,19 +23,17 @@ def eval_expression(input_string,allowed_fields,**kwargs):
              # Step 4
              raise NameError(f"Use of {name} not allowed")
      return eval(code, {"__builtins__": {}}, kwargs)
-def compute_formula_weight(w_formula,**kwargs):
-    weight=0
+def compute_formula_value(w_formula,**kwargs):
+    result=0
     try:
-        weight=eval_expression(w_formula,ALLOWED_EVAL_FIELDS,**kwargs)
-    # try:
-    #     w_code=compile(w_formula, "<string>", "eval")
-    #     weight=float(eval(w_code,{},kwargs))
+        result=eval_expression(w_formula,ALLOWED_EVAL_FIELDS,**kwargs)
+
     except :
-        _logger.warning('an error occur while calculating weight\n',sys.exc_info()[0])
+        _logger.warning('an error occur while calculating value\n',sys.exc_info()[0])
         print(kwargs)
         print(w_formula)
     finally:
-        return weight
+        return result
 def compute_standard_weight(length,weight_per_length):
     return length*weight_per_length
 def compute_profile_calculated_weight():
@@ -124,17 +122,15 @@ class ProductTemplate(models.Model):
         return False
     @api.onchange('categ_id','name')
     def _compute_type(self):
-        materials=self.env['metal.material'].search([])
         try:
             record=self
             if not record.categ_id or not record.name:
                 return
-            groups={}
-            categ=record.categ_id
-            # print(record.name)
-            # print(categ.convention)
             if not categ.convention or not self.parse(categ.convention,record.name,groups):
                 return
+            materials=self.env['metal.material'].search([])
+            groups={}
+            categ=record.categ_id
             
             if 'material' in groups:
                 material=materials.filtered(lambda r:self._filterByRe(r.convention,groups['material']))
@@ -147,10 +143,17 @@ class ProductTemplate(models.Model):
                 
                 uom=self.categ_id.length_uom
 
-            if 'length' in groups:
-                self.length=float(groups['length'])
-            if 'width' in groups:
-                self.width=float(groups['width'])
+            if 'format' in groups and not record.is_product_variant:
+                format=self.env['product.attribute.value'].search([('code_suffixe','ilike',groups['format'])],limit=1)
+                if format:
+                    self.length=format.length
+                    self.width=format.width
+
+            else:
+                if 'length' in groups:
+                    self.length=float(groups['length'])
+                if 'width' in groups:
+                    self.width=float(groups['width'])
             if 'height' in groups:
                 self.height=float(groups['height'])
             if 'thickness' in groups:
@@ -167,7 +170,8 @@ class ProductTemplate(models.Model):
                         self.weight_per_length=profile.weight_per_length
                         self.surface_per_length=profile.surface_per_length
                         self.surface_section=profile.surface_section
-        except:
+        except Exception as e:
+            _logger.error(e)
             pass
     
     @api.onchange('weight')            
@@ -186,9 +190,10 @@ class ProductTemplate(models.Model):
             # s_code, w_code=compile(s_formula, "<string>", "eval"),compile(w_formula, "<string>", "eval")
             # record.surface, record.weight=float(eval(s_code)),float(eval(w_code))
             if record.cattype=='sheetmetal':
-                record.weight= compute_formula_weight(record.categ_id.weight_formula,length=record.length,width=record.width,thickness=record.thickness,volmass=record.material.volmass)
+                record.weight= compute_formula_value(record.categ_id.weight_formula,length=record.length,width=record.width,thickness=record.thickness,volmass=record.material.volmass)
+                record.surface= compute_formula_value(record.categ_id.surface_formula,length=record.length,width=record.width)
             elif record.cattype=='profile' and record.protype=='calculated':
-                record.weight=compute_formula_weight(record.categ_id.weight_formula,length=record.length,width=record.width,height=record.height,thickness=record.thickness,volmass=record.material.volmass)
+                record.weight=compute_formula_value(record.categ_id.weight_formula,length=record.length,width=record.width,height=record.height,thickness=record.thickness,volmass=record.material.volmass)
             elif record.cattype=='profile' and record.protype=='standard':
                 record.weight=compute_standard_weight( record.length,record.weight_per_length)
         
@@ -268,7 +273,7 @@ class ProductProduct(models.Model):
             # w_code=compile(w_formula, "<string>", "eval")
             # product.surface,product.volume, product.weight=float(eval(s_code)),float(eval(v_code)),float(eval(w_code))
             # product.surface,product.volume=float(eval(s_code)),float(eval(v_code))
-            product.weight=compute_formula_weight(product.categ_id.weight_formula,length=product.length,width=product.width,thickness=product.thickness,volmass=product.material.volmass)
+            product.weight=compute_formula_value(product.categ_id.weight_formula,length=product.length,width=product.width,thickness=product.thickness,volmass=product.material.volmass)
         elif product.product_tmpl_id.cattype=='profile' and product.product_tmpl_id.protype=='calculated' and product.product_template_attribute_value_ids.attribute_id.display_type=='profilelength':
             product.default_code=product.product_tmpl_id.name + product.product_template_attribute_value_ids.product_attribute_value_id.code_suffixe
             
@@ -282,7 +287,7 @@ class ProductProduct(models.Model):
             # if w_formula and len(w_formula)>0:
             #     w_code=compile(w_formula, "<string>", "eval")
             #     product.weight=float(eval(w_code))
-            product.weight=compute_formula_weight(w_formula,length=product.length, width=product.width,height=product.height,thickness=product.thickness,volmass=product.material.volmass)
+            product.weight=compute_formula_value(w_formula,length=product.length, width=product.width,height=product.height,thickness=product.thickness,volmass=product.material.volmass)
         elif product.product_tmpl_id.cattype=='profile' and product.product_tmpl_id.protype=='standard' and product.product_template_attribute_value_ids.attribute_id.display_type=='profilelength':
             product.default_code=product.product_tmpl_id.name + product.product_template_attribute_value_ids.product_attribute_value_id.code_suffixe
             
