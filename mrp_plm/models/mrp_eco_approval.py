@@ -11,7 +11,7 @@ class EcoApproval(models.Model):
     _sequence_name='mrp.plm.eco.approval'
     approval_date=fields.Datetime('Approval date')
     approval_template_id=fields.Many2one('mrp.plm.eco.approval.template',"Approval template",auto_join=True,index=True, ondelete='cascade',required=True,help="Approval template")
-    awaiting_my_validation=fields.Boolean('Awaiting my validation',compute='_compute_awaiting_my_validation')
+    awaiting_my_validation=fields.Boolean('Awaiting my validation',compute='_compute_awaiting_my_validation',search='_search_awaiting_my_validation')
     eco_id=fields.Many2one('mrp.plm.eco','Technical Change',ondelete='cascade',required=True,help="Technical ECO")
     eco_stage_id=fields.Many2one(related="eco_id.stage_id",string="ECO Stage",store=True,help="ECO Stage")
     is_pending=fields.Boolean('Is pending',compute='_compute_status',store=True,readonly=True)
@@ -28,6 +28,8 @@ class EcoApproval(models.Model):
     template_stage_id=fields.Many2one('mrp.plm.eco.stage',string='Validation stage')
     user_id=fields.Many2one('res.users','Approuvé par')
 
+    
+    
     @api.model
     def create(self, vals):
         res= super(EcoApproval,self).create(vals)
@@ -88,3 +90,8 @@ class EcoApproval(models.Model):
     def _compute_awaiting_my_validation(self):
         for record in self:
             record.awaiting_my_validation=record.status in ['none'] and self.env.user in record.required_user_ids
+
+    def _search_awaiting_my_validation(self, operator, value):
+        recs = self.search([]).filtered(lambda x : x.status in ['none'] and self.env.user in x.required_user_ids)
+        if recs:
+            return [('id', 'in', [x.id for x in recs])]

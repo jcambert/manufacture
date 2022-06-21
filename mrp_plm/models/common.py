@@ -16,7 +16,7 @@ class BaseSequence(models.AbstractModel):
     _name='sequence.mixin'
     _description='Sequence Mixin'
     _sequence_name=''
-    sequence = fields.Integer(string='Sequence',default=1,help="Ordering sequence")
+    sequence = fields.Char(string='Sequence',default=1,help="Ordering sequence")
 
     @api.model
     def seq_next_by_code(self,name=''):

@@ -69,8 +69,8 @@ class Eco(models.Model):
     type=fields.Selection([('product','Product only'),('bom','BOM'),('routing','Routing'),('both','Both')],default='product',string='Apply to')
     type_id=fields.Many2one('mrp.plm.eco.type','Type',ondelete='restrict',required=True,help="Type",store=True)
     type_id_name=fields.Char(related='type_id.name',string='Type name')
-    user_can_approve=fields.Boolean('Can approve',compute='_compute_user_can_approve',help="User can approve")
-    user_can_reject=fields.Boolean('Can reject',compute='_compute_user_can_approve',help="User can reject")
+    user_can_approve=fields.Boolean('Can approve',compute='_compute_user_can_approve_or_reject',help="User can approve")
+    user_can_reject=fields.Boolean('Can reject',compute='_compute_user_can_approve_or_reject',help="User can reject")
     user_id=fields.Many2one('res.users','Responsible',help="User responsible", default=lambda self: self.env.user, tracking=True)
 
     @api.model
@@ -140,20 +140,33 @@ class Eco(models.Model):
             self.allow_apply_change,self.allow_change_stage=False,False
 
     
-    @api.depends('state','stage_id','approval_ids','approval_ids.status','kanban_state')
-    def _compute_user_can_approve(self):
+    @api.depends('state','stage_id','approval_ids.status')
+    def _compute_user_can_approve_or_reject(self):
         for record in self:
             record.user_can_approve=False
             record.user_can_reject=False
-            if any(record.approval_ids.filtered(lambda x: x.awaiting_my_validation)):
+
+            my_pendings=record.approval_ids.filtered(lambda x: self.env.user in x.required_user_ids and x.is_pending)
+            my_last_not_pending=record.approval_ids.filtered(lambda x: self.env.user in x.required_user_ids and not x.is_pending)
+
+            if any(my_pendings):
                 record.user_can_approve=True
                 record.user_can_reject=True
-            elif any(record.approval_ids.filtered(lambda x: x.status=='rejected')):
-                record.user_can_approve=True
-            elif any(record.approval_ids.filtered(lambda x: x.status=='approved')):
-                record.user_can_reject=True
+            elif len(my_last_not_pending)>0:
+                if my_last_not_pending[0].status=='approved':
+                    record.user_can_approve=False
+                    record.user_can_reject=True
+                elif my_last_not_pending[0].status=='rejected':
+                    record.user_can_approve=True
+                    record.user_can_reject=False
+                    
             
-        
+            pendings=record.approval_ids.filtered(lambda x:  x.is_pending)
+            if any(pendings):
+                record.kanban_state='blocked'
+            domain=[('id','in',record.approval_ids.ids)]
+            groups = self.env['mrp.plm.eco.approval'].read_group(domain, ['id'], ['is_pending'])
+            pass
     @api.onchange('stage_id')
     def on_stage_change(self):
         
