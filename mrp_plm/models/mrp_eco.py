@@ -165,7 +165,7 @@ class Eco(models.Model):
             if any(pendings):
                 record.kanban_state='blocked'
             domain=[('id','in',record.approval_ids.ids)]
-            groups = self.env['mrp.plm.eco.approval'].read_group(domain, ['id'], ['is_pending'])
+            groups = self.env['mrp.plm.eco.approval'].read_group(domain, ['id','status'], ['name'])
             pass
     @api.onchange('stage_id')
     def on_stage_change(self):
@@ -213,7 +213,7 @@ class Eco(models.Model):
         self.ensure_one()
         if not self.user_can_approve:
             return
-        eligibles=self.approval_ids.filtered(lambda x: x.is_pending and  self.env.user in x.required_user_ids)
+        eligibles=self.approval_ids.filtered(lambda x: x.is_pending and  ( self.env.user in x.required_user_ids ))
         if not eligibles:
             ids=self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id)
             eligibles=self.env['mrp.plm.eco.approval'].browse(ids)
@@ -224,7 +224,9 @@ class Eco(models.Model):
         if self.stage_id.final_stage:
             self.state='done'
             # self.kanban_state='blocked'
-        
+        return True
+
+
     def reject(self):
         self.ensure_one()
         if not self.user_can_reject:

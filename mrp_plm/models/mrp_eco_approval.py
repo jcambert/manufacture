@@ -13,7 +13,7 @@ class EcoApproval(models.Model):
     approval_template_id=fields.Many2one('mrp.plm.eco.approval.template',"Approval template",auto_join=True,index=True, ondelete='cascade',required=True,help="Approval template")
     awaiting_my_validation=fields.Boolean('Awaiting my validation',compute='_compute_awaiting_my_validation',search='_search_awaiting_my_validation')
     eco_id=fields.Many2one('mrp.plm.eco','Technical Change',ondelete='cascade',required=True,help="Technical ECO")
-    eco_stage_id=fields.Many2one(related="eco_id.stage_id",string="ECO Stage",store=True,help="ECO Stage")
+    eco_stage_id=fields.Many2one(related="eco_id.stage_id",string="ECO Stage",store=True,help="ECO Stage")  
     is_pending=fields.Boolean('Is pending',compute='_compute_status',store=True,readonly=True)
     is_approved=fields.Boolean("Is approved",compute='_compute_status',store=True,readonly=True)
     is_rejected=fields.Boolean("Is rejected",compute='_compute_status',store=True,readonly=True)
@@ -45,6 +45,7 @@ class EcoApproval(models.Model):
     def user_can_approve(self):
         r=self.filtered(lambda r:(not r.is_approved) and (not r.is_closed)  and (self.env.user.id in r.required_user_ids.mapped('id') or self.env.is_superuser()) and (r.template_stage_id==r.eco_stage_id))
         return len(r)>0
+   
     @api.model
     def approve(self):
         for record in self.filtered(lambda r:(not r.is_approved) and (not r.is_closed)  and (self.env.user.id in r.required_user_ids.mapped('id') or self.env.is_superuser()) and (r.template_stage_id==r.eco_stage_id)):
@@ -52,11 +53,13 @@ class EcoApproval(models.Model):
             record.approval_date=fields.Date.today()
             record.status='approved'
         self.flush()
+    
     @api.model            
     @api.returns('bool')
     def user_can_reject(self):
         r=self.filtered(lambda r:(not r.is_rejected) and (not r.is_closed)  and (self.env.user.id in r.required_user_ids.mapped('id') or self.env.is_superuser()) and (r.template_stage_id==r.eco_stage_id))
         return len(r)>0
+   
     @api.model
     def reject(self):
         for record in self:

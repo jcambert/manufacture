@@ -17,6 +17,7 @@
                     <button string="Approve" name="approve" type="object" class="oe_highlight" attrs="{'invisible': ['|',('user_can_approve', '=', False),('state','!=','progress')]}"/>
                     <button string="Reject" name="reject" type="object" class="oe_highlight" attrs="{'invisible': ['|',('user_can_reject', '=', False),('state','!=','progress')]}"/>
                     <button string="Apply Changes" name="action_apply" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('allow_apply_change', '=', False), ('state', '=', 'done')]}"/>
+
                 </header>
                 <sheet>
                     <field name="legend_blocked" invisible="1"/>
