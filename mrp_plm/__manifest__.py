@@ -57,6 +57,7 @@
         'views/eco_type/mrp_eco_type_view_tree.xml',
         'views/eco_type/mrp_eco_type_dashboard_view_kanban.xml',
         'views/product/product_template_view_form_inherit_plm.xml',
+        'views/mrp_production/mrp_eco_production_view_form.xml',
         'actions/mrp_menus_actions.xml',
         'menus/mrp_menu.xml',
     ],

@@ -9,4 +9,9 @@
         <field name="context">{'search_default_type_id': [active_id], 'default_type_ids': active_ids, 'default_type_id': active_id}</field>
     </record>
 
+     <record id="mrp_eco_product_action" model="ir.actions.act_window">
+        <field name="name">OMT</field>
+        <field name="res_model">mrp.plm.eco</field>
+        <field name="view_mode">kanban,tree,calendar,pivot,graph,form</field>
+    </record>
 </odoo>

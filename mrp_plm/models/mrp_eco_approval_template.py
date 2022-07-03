@@ -6,6 +6,7 @@ class EcoApprovalTemplate(models.Model):
     _description='Eco Approval Template'
     _inherit=['sequence.mixin']
     _order="sequence,id"
+    sequence = fields.Integer(string='Sequence',default=1,help="Ordering sequence")
     approval_type=fields.Selection([
         ('selection','Selection'),
         ('mandatory','Mandatory'),

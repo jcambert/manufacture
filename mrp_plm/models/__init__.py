@@ -9,3 +9,4 @@ from . import mrp_eco
 from . import mrp_eco_bom_change
 from . import mrp_eco_routing_change
 from . import product
+from . import mrp_eco_production

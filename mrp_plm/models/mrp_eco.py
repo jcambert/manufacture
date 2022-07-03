@@ -47,7 +47,7 @@ class Eco(models.Model):
     note=fields.Text('Internal Notes')
     previous_change_ids=fields.One2many('mrp.plm.eco.bom.change','rebase_id',string='Previous changed',readonly=True)
     product_tmpl_id=fields.Many2one('product.template',string='Article')
-    sequence=fields.Char(string='Sequence',required=True,copy=False,readonly=True,default=lambda self:_('Ne w'))
+    sequence=fields.Char(string='Sequence',required=True,copy=False,readonly=True,default=lambda self:_('New'))
     routing_change_ids=fields.One2many('mrp.plm.eco.routing.change','eco_id',string='Routing change')
     stage_id=fields.Many2one('mrp.plm.eco.stage' ,
         ondelete='restrict',
@@ -73,9 +73,16 @@ class Eco(models.Model):
     user_can_reject=fields.Boolean('Can reject',compute='_compute_user_can_approve_or_reject',help="User can reject")
     user_id=fields.Many2one('res.users','Responsible',help="User responsible", default=lambda self: self.env.user, tracking=True)
 
+    sale_ok = fields.Boolean('Can be Sold',related='product_tmpl_id.sale_ok',readonly=True)
+    purchase_ok = fields.Boolean('Can be Purchased',related='product_tmpl_id.purchase_ok',readonly=True)
+    can_manufacture=fields.Boolean('Can manufacture',help="Can manufacture")
+    can_purchase=fields.Boolean('Can purchase',help="Can purchase")
+
     @api.model
     def default_get(self, fields):
         vals = super(Eco, self).default_get(fields)
+        art=self.env['product.template'].search([],limit=1)
+        vals['product_tmpl_id']=art.id
         return vals
 
     def name_get(self):
@@ -164,9 +171,12 @@ class Eco(models.Model):
             pendings=record.approval_ids.filtered(lambda x:  x.is_pending)
             if any(pendings):
                 record.kanban_state='blocked'
-            domain=[('id','in',record.approval_ids.ids)]
-            groups = self.env['mrp.plm.eco.approval'].read_group(domain, ['id','status'], ['name'])
-            pass
+            # domain=[('id','in',record.approval_ids.ids)]
+            # groups = self.env['mrp.plm.eco.approval'].read_group(domain, ['id','status'], ['name'])
+            # pass
+            
+
+
     @api.onchange('stage_id')
     def on_stage_change(self):
         
@@ -174,17 +184,31 @@ class Eco(models.Model):
             return
         self.ensure_one()
 
+        if self.state!='progress':
+            self.write({'stage_id':self._origin.stage_id.id})
+            self.flush()
+            raise UserError(_("You must start revision, before changing state"))
             
-        #Approve if needed
-        #if self._origin.user_can_approve:
-        #    self._origin.approve()
-        #else:
-        #    raise UserError("You are not able to approve this stage")
-        #if another approval needed, raise error=> cannot change stage
-        #self._origin.flush()
-        if self._origin.approval_ids.need_approvals():
-            # restore(self)
-            raise UserError("You cannot step into this stage.Approval is needed")
+        rec=self._origin
+        groups={}
+        for approval in rec.approval_ids.filtered(lambda x: x.eco_stage_id.id==rec.stage_id.id):
+
+            if approval.approval_template_id.id in groups:
+                continue
+            if approval.is_approved:
+                groups[approval.approval_template_id.id]=False
+            else:
+                groups[approval.approval_template_id.id]= (approval.is_pending or approval.is_rejected) and approval.approval_template_id.approval_type=='mandatory'
+
+       
+        groups = {k: v for k, v in groups.items() if v}
+        if len(groups)>0:
+            self.write({'stage_id':rec.stage_id.id})
+            raise UserError(_("You must approve or reject all approvals before changing state"))
+            return {'warning': {
+                'title': _("Error"),
+                'message': _("You are not able to change stage, there are pending approvals")
+            }}
 
 
         #create new approvals if needed    
@@ -213,16 +237,19 @@ class Eco(models.Model):
         self.ensure_one()
         if not self.user_can_approve:
             return
-        eligibles=self.approval_ids.filtered(lambda x: x.is_pending and  ( self.env.user in x.required_user_ids ))
+        eligibles=self.approval_ids.filtered(lambda x:x.eco_stage_id.id==self.stage_id.id and x.is_pending and  ( self.env.user in x.required_user_ids ))
+        closables=self.approval_ids.filtered(lambda x:x.eco_stage_id.id==self.stage_id.id and (x.is_rejected or x.is_approved) )
         if not eligibles:
             ids=self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id)
             eligibles=self.env['mrp.plm.eco.approval'].browse(ids)
-        for approval in eligibles:
-            approval.approve()
-        
+        # for approval in eligibles:
+        eligibles.approve()
+        # for approvable in closables:
+        closables.close()
+
         self.flush()
         if self.stage_id.final_stage:
-            self.state='done'
+            self. write({'state':'done'})
             # self.kanban_state='blocked'
         return True
 
@@ -231,16 +258,16 @@ class Eco(models.Model):
         self.ensure_one()
         if not self.user_can_reject:
             return
-        eligibles=self.approval_ids.filtered(lambda x: x.is_pending and  self.env.user in x.required_user_ids)
+        eligibles=self.approval_ids.filtered(lambda x:x.eco_stage_id.id==self.stage_id.id and x.is_pending and  self.env.user in x.required_user_ids)
         if not eligibles:
             ids=self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id)
             eligibles=self.env['mrp.plm.eco.approval'].browse(ids)
-        for approval in eligibles:
-            approval.reject()
+        
+        eligibles.reject()
         
         self.flush()
         if self.stage_id.final_stage:
-            self.state='rejected'
+            self. write({'state':'rejected'})
             # self.kanban_state='blocked'
         pass
     def action_apply(self):

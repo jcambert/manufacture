@@ -9,6 +9,9 @@
                 <field name="user_can_approve" invisible="1"/>
                 <field name="user_can_reject" invisible="1"/>
                 <field name="allow_apply_change" invisible="1"/>
+                <field name="sale_ok" invisible="1"/>
+                <field name="purchase_ok" invisible="1"/>
+
                 <header>
                     <field name="stage_id" widget="statusbar" options="{'clickable': '1'}" attrs="{'invisible': ['|', ('active', '=', False), ('state', '=', 'confirmed')]}"/>
                     <button string="Start Revision" name="action_new_revision" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
@@ -28,12 +31,14 @@
                             <field string="Documents" name="mrp_document_count" widget="statinfo"/>
                         </button>
                         <button name="open_new_bom" icon="fa-flask" type="object" attrs="{'invisible': [('new_bom_id', '=', False)]}" class="oe_stat_button">
-                        <div class="o_field_widget o_stat_info mr4">
-                            <div>
-                                <span>Revision</span><br/>
-                                <span>V<field name="new_bom_revision" readonly="True"/> </span>
+                            <div class="o_field_widget o_stat_info mr4">
+                                <div>
+                                    <span>Revision</span>
+                                    <br/>
+                                    <span>V<field name="new_bom_revision" readonly="True"/>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
                         </button>
                     </div>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
@@ -41,8 +46,11 @@
                     <field name="kanban_state" widget="state_selection" attrs="{'readonly': [('allow_change_kanban_state', '=', False)]}"/>
                     <div class="oe_title">
                         <label for="name" string="Description"/>
-                        <h2><field name="name" placeholder="e.g. Awesome Product 2.0" attrs="{'readonly': [('state', '=', 'done')]}"/></h2>
+                        <h2>
+                            <field name="name" placeholder="e.g. Awesome Product 2.0" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                        </h2>
                     </div>
+
                     <group>
                         <group>
                             <field name="active" invisible="1"/>
@@ -54,6 +62,18 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group>
+                            <div name="options" attrs="{'invisible':[('sale_ok','=',False),('purchase_ok','=',False)]}">
+                                <span class="d-inline-block" attrs="{'readonly': [('state', '!=', 'confirmed')], 'invisible':[('sale_ok','=',False)]}">
+                                    <field name="can_manufacture"/>
+                                    <label for="can_manufacture"/>
+                                </span>
+                                <span class="d-inline-block" attrs="{'readonly': [('state', '!=', 'confirmed')], 'invisible':[('purchase_ok','=',False)]}">
+                                    <field name="can_purchase"/>
+                                    <label for="can_purchase"/>
+                                </span>
+                            </div>
+                        </group>
+                        <group>
                             <field name="user_id" attrs="{'readonly': [('state', '=', 'done')]}" domain="[('share', '=', False)]"/>
                             <field name="effectivity" widget="radio" attrs="{'readonly': [('state', '=', 'done')]}" required="1"/>
                             <field name="effectivity_date" attrs="{'invisible': [('effectivity', '=', 'asap')], 'readonly': [('state', '=', 'done')]}"/>
@@ -63,6 +83,35 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Approvals" name="approvals">
+                            <field name="approval_ids" nolabel="1" readonly="1" help="Define the approval roles on the ECO stages.">
+                                <tree decoration-danger="template_stage_id == eco_stage_id and status == 'rejected' and not is_closed" decoration-info="template_stage_id == eco_stage_id and status == 'none' and not is_closed" decoration-success="template_stage_id == eco_stage_id and status in ('approved', 'commented') and not is_closed" decoration-muted="template_stage_id != eco_stage_id">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="user_id"/>
+                                    <field name="status"/>
+                                    <field name="approval_date"/>
+                                    <field name="template_stage_id"/>
+                                    <field name="required_user_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    <field name="eco_stage_id" />
+                                    <field name="is_closed" />
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="user_id"/>
+                                            <field name="status"/>
+                                        </group>
+                                        <group>
+                                            <field name="template_stage_id"/>
+                                            <field name="required_user_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                            <field name="eco_stage_id" groups="base.group_no_one"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
                         <page string="Note" name="note">
                             <field name="note" attrs="{'readonly': [('state', '=', 'done')]}" placeholder="Description of the change and its reason."/>
                         </page>
@@ -111,35 +160,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Approvals" name="approvals">
-                            <field name="approval_ids" nolabel="1" readonly="1" help="Define the approval roles on the ECO stages.">
-                                <tree decoration-danger="template_stage_id == eco_stage_id and status == 'rejected' and not is_closed" decoration-info="template_stage_id == eco_stage_id and status == 'none' and not is_closed" decoration-success="template_stage_id == eco_stage_id and status in ('approved', 'commented') and not is_closed" decoration-muted="template_stage_id != eco_stage_id">
-                                    <field name="sequence"/>
-                                    <field name="name"/>
-                                    <field name="user_id"/>
-                                    <field name="status"/>
-                                    <field name="approval_date"/>
-                                    <field name="template_stage_id"/>
-                                    <field name="required_user_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                    <field name="eco_stage_id" invisible="1"/>
-                                    <field name="is_closed" invisible="1"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <group>
-                                            <field name="name"/>
-                                            <field name="user_id"/>
-                                            <field name="status"/>
-                                        </group>
-                                        <group>
-                                            <field name="template_stage_id"/>
-                                            <field name="required_user_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                            <field name="eco_stage_id" groups="base.group_no_one"/>
-                                        </group>
-                                    </group>
-                                </form>
-                            </field>
-                        </page>
+
                         <page string="Extra Info" name="extra_info" groups="base.group_no_one">
                             <group>
                                 <field name="email_cc" string="Email cc" groups="base.group_no_one"/>
