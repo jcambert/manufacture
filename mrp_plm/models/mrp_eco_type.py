@@ -29,14 +29,14 @@ class EcoType(models.Model):
 
     def _compute_nb_approval_my(self):
         for record in self:
-            # res=self._eco.search_count([('user_can_approve','=',True),('type_id.id','=',record.id)])
-            res=10
+            res=self.env['mrp.plm.eco'].search_count(['|',('type_id.id','=',record.id),('approval_ids.awaiting_my_validation','=',True)])
+            # res=10
             record.nb_approvals_my = res
 
     def _compute_nb_eco(self):
         for record in self:
-            # res=self._eco.search_count([('state','not in',('done','rejected')),('type_id.id','=',record.id)])
-            res=10
+            res=self.env['mrp.plm.eco'].search_count(['|',('type_id.id','=',record.id),('approval_ids.awaiting_validation','=',True)])
+            # res=10
             record.nb_ecos = res
 
     def _compute_nb_validation(self):

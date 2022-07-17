@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="mrp_production_tree_view_inherited" model="ir.ui.view">
+            <field name="name">mrp.production.tree.view.inherited</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="has_plm" invisible="1" />
+                    <field name="plm_badge" decoration-success="has_plm == False" decoration-warning="has_plm == True" optional="hide" widget="badge"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+
+
+</odoo>
