@@ -20,7 +20,7 @@ class Eco(models.Model):
 
     allow_apply_change=fields.Boolean('Allow apply change',compute='_compute_allow_apply_change',help="Show allowed apply changes")
     allow_change_kanban_state=fields.Boolean('Allow change kanban state',compute='_compute_allow_change_kanban_state',help="Show allowed change kanban state")
-    allow_change_stage=fields.Boolean('Allow change state', compute='_compute_allow_change_state', help="Allowing changing state")
+    allow_change_stage=fields.Boolean('Allow change state', compute='_compute_allow_change_stage', help="Allowing changing state")
     approval_ids=fields.One2many('mrp.plm.eco.approval','eco_id',help="validation approvals")
     bom_change_ids=fields.One2many('mrp.plm.eco.bom.change','eco_id',readonly=True,help='OMT Modification')
     bom_id=fields.Many2one('mrp.bom',string='Bom')
@@ -133,19 +133,22 @@ class Eco(models.Model):
         for eco in self:
             eco.stage_id = eco.stage_find(eco.id, [('folded', '=', False), ('final_stage', '=', False)])
             
-    @api.depends('state','kanban_state')
-    def _compute_allow_change_state(self):
+    @api.depends('state')
+    def _compute_allow_change_stage(self):
         for eco in self:
-            eco.allow_change_state=(eco.state=='progress' and eco.kanban_state=='done') 
+            eco.allow_change_stage=eco.state not in ['confirmed','done']
 
     def _compute_mrp_document_count(self):
-        for record in self:
-            record.mrp_document_count=0
+        for eco in self:
+            eco.mrp_document_count=0
 
+    @api.depends('stage_id')
     def _compute_allow_apply_change(self):
-        for record in self:
-            self.allow_apply_change,self.allow_change_stage=False,False
-
+        for eco in self:
+            eco.allow_apply_change= eco.stage_id.allow_apply_change
+            if eco.id:
+                #Recalculate product's ECO Count
+                eco.product_tmpl_id.recalcul_eco_count()
     
     @api.depends('state','stage_id','approval_ids.status')
     def _compute_user_can_approve_or_reject(self):
@@ -176,6 +179,7 @@ class Eco(models.Model):
             # pass
             
 
+        
 
     @api.onchange('stage_id')
     def on_stage_change(self):
@@ -184,11 +188,14 @@ class Eco(models.Model):
             return
         self.ensure_one()
 
-        if self.state!='progress':
+        if not self.allow_change_stage:
             self.write({'stage_id':self._origin.stage_id.id})
             self.flush()
-            raise UserError(_("You must start revision, before changing state"))
-            
+
+            if self.state=='done':
+                raise UserError(_("This ECO is closed. You can't change the stage."))
+            elif self.state!='progress':
+                raise UserError(_("You must start revision, before changing state"))
         rec=self._origin
         groups={}
         for approval in rec.approval_ids.filtered(lambda x: x.eco_stage_id.id==rec.stage_id.id):
@@ -205,15 +212,17 @@ class Eco(models.Model):
         if len(groups)>0:
             self.write({'stage_id':rec.stage_id.id})
             raise UserError(_("You must approve or reject all approvals before changing state"))
-            return {'warning': {
-                'title': _("Error"),
-                'message': _("You are not able to change stage, there are pending approvals")
-            }}
+            
 
 
+        
+           
         #create new approvals if needed    
         self.createApprovals(self._origin.id,self.stage_id.id,self.type_id.id) 
         
+
+        
+
         if not self.approval_ids.need_approvals():
             self.kanban_state='done'
             return
@@ -271,7 +280,16 @@ class Eco(models.Model):
             # self.kanban_state='blocked'
         pass
     def action_apply(self):
-        pass
+        self.ensure_one()
+        
+        data={'state':'done','kanban_state':'done'}
+        last_stage=self.stage_find(self.id, [ ('final_stage', '=', True)])
+        if last_stage:
+            data['stage_id']=last_stage
+        self.write(data)
+        #Recalculate product's ECO Count
+        self.product_tmpl_id.recalcul_eco_count()
+
     def action_see_attachments(self):
         pass 
     def open_new_bom(self):

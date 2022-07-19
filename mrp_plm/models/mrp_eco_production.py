@@ -14,9 +14,10 @@ class EcoProduction(models.Model):
     @api.depends('product_id', 'product_tmpl_id')
     def _compute_has_plm(self):
         for production in self:
-            production.has_plm = production.product_tmpl_id.eco_count>0
-            production.plm_count = production.product_tmpl_id.eco_count
+            production.has_plm = production.product_tmpl_id.eco_count_blocking>0
+            production.plm_count = production.product_tmpl_id.eco_count_blocking
             production.plm_badge = "%s eco" % production.plm_count 
+
     def action_view_eco(self):
         action = self.env["ir.actions.act_window"]._for_xml_id("mrp_plm.mrp_eco_product_action")
         action['context'] = literal_eval(action.get('context'))

@@ -13,7 +13,7 @@
                 <field name="purchase_ok" invisible="1"/>
 
                 <header>
-                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}" attrs="{'invisible': ['|', ('active', '=', False), ('state', '=', 'confirmed')]}"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}" attrs="{'invisible': ['|', ('active', '=', False), ('state', 'in', ['confirmed','done'])]}"/>
                     <button string="Start Revision" name="action_new_revision" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
                     <button string="Apply Rebase" name="apply_rebase" help="Rebase new revision of BoM with previous eco bom and old bom changes." type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'rebase')]}"/>
                     <button string="Conflict Resolved" name="conflict_resolve" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'conflict')]}" confirm="System will automatically resolved the conflict(s) and apply changes. Do you agree?"/>
@@ -27,10 +27,10 @@
                     <field name="legend_normal" invisible="1"/>
                     <field name="legend_done" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" name="action_see_attachments" type="object" icon="fa-file-text-o" attrs="{'invisible': ['|', ('state', '=', 'confirmed'), ('type', '=', 'routing')]}">
+                        <button name="action_see_attachments" class="oe_stat_button"  t-if="False" type="object" icon="fa-file-text-o" attrs="{'invisible': ['|', ('state', '=', 'confirmed'), ('type', '=', 'routing')]}">
                             <field string="Documents" name="mrp_document_count" widget="statinfo"/>
                         </button>
-                        <button name="open_new_bom" icon="fa-flask" type="object" attrs="{'invisible': [('new_bom_id', '=', False)]}" class="oe_stat_button">
+                        <button name="open_new_bom" t-if="False" icon="fa-flask" type="object" attrs="{'invisible': [('new_bom_id', '=', False)]}" class="oe_stat_button">
                             <div class="o_field_widget o_stat_info mr4">
                                 <div>
                                     <span>Revision</span>
@@ -55,7 +55,7 @@
                         <group>
                             <field name="active" invisible="1"/>
                             <field name="type_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'confirmed')]}"/>
-                            <field name="type" widget="radio" attrs="{'readonly': [('state', '!=', 'confirmed')]}"/>
+                            <field name="type" widget="radio" invisible="1" attrs="{'readonly': [('state', '!=', 'confirmed')]}"/>
                             <field name="product_tmpl_id" domain="[('type', 'in', ['consu', 'product'])]" attrs="{'readonly': [('state', '!=', 'confirmed')], 'invisible': [('type', '=', 'routing')], 'required': [('type', 'in', ('bom', 'both', 'product'))]}"/>
                             <field name="bom_id" context="{'default_product_tmpl_id': product_tmpl_id}" attrs="{'readonly': [('state', '!=', 'confirmed')], 'invisible': [('type', 'in', ('routing', 'product'))], 'required': [('type', 'in', ('bom', 'both'))]}"/>
                             <field name="new_bom_id" invisible="1"/>
