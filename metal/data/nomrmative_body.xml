@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record forcecreate="True" model="metal.normative.body" id="normative_body_nf">
+            <field name="name">NF</field>
+            <field name="description">Norme Francaise</field>
+        </record>
+        <record forcecreate="True" model="metal.normative.body" id="normative_body_afnor">
+            <field name="name">AFNOR</field>
+            <field name="description">Norme Francaise</field>
+        </record>
+        <record forcecreate="True" model="metal.normative.body" id="normative_body_aisi">
+            <field name="name">AISI</field>
+            <field name="description">Norme Americaine</field>
+        </record>
+        <record forcecreate="True" model="metal.normative.body" id="normative_body_bs">
+            <field name="name">BS</field>
+            <field name="description">Norme Anglaise</field>
+        </record>
+        <record forcecreate="True" model="metal.normative.body" id="normative_body_wnr">
+            <field name="name">W.Nr.</field>
+            <field name="description">Norme Allemande</field>
+        </record>
+    </data>
+
+</odoo>

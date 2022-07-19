@@ -2,13 +2,20 @@
 <odoo>
 
     <data>
-    <record forcecreate="True" model="metal.material" id="material_steel">
+        <record forcecreate="True" model="metal.material.template" id="material_template_steel">
             <field name="name">Acier</field>
             <field name="volmass">7.8</field>
-            <field name="convention" >^(?P&lt;name&gt;(s|e|hx)[0-9]{3}|(dc|dd|xc)[0-9]{2}|dx51d)|(ac)$</field>
             <field name="volmass_uom" ref="metal.product_uom_kg_per_m3"/>
-            <field name="default" >1</field>
         </record>
+
+        <record forcecreate="True" model="metal.material" id="material_steel">
+            <field name="material_tmpl_id" ref="metal.material_template_steel"/>
+            <field name="convention" >^(?P&lt;name&gt;(s|e|hx)[0-9]{3}|(dc|dd|xc)[0-9]{2}|dx51d)|(ac)$</field>
+            <field name="default" >1</field>
+            <field name="normative_body" ref="metal.normative_body_afnor"></field>
+            
+        </record>
+
         <record forcecreate="True" model="metal.material" id="material_stainlesssteel">
             <field name="name">Inox</field>
             <field name="volmass">7.8</field>

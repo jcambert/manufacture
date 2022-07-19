@@ -23,7 +23,8 @@
 
     # always loaded
     'data': [
-        'security/plm_security.xml',
+        'data/ir_sequence_data.xml',
+        'security/quotation_security.xml',
         'security/ir.model.access.csv',
        
     ],

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <record id="sequence_metal_quotation_template" model="ir.sequence">
+            <field name="name">Metal Quotation Template Sequence</field>
+            <field name="code">metal.quotation.template</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id"></field>
+            <field name="prefix">TDP</field>
+        </record>
+        <record id="sequence_metal_quotation" model="ir.sequence">
+            <field name="name">Metal Quotation Sequence</field>
+            <field name="code">metal.quotation</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id"></field>
+            <field name="prefix">DP</field>
+    </data>
+</odoo>
