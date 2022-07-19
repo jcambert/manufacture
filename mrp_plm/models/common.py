@@ -2,7 +2,7 @@
 from odoo import models, fields, api,_
 from odoo.exceptions import UserError, ValidationError
 from random import randint
-
+"""
 class BaseArchive(models.AbstractModel):
     _name='archive.mixin'
     _description='Archive Mixin'
@@ -73,3 +73,4 @@ class BasePriority(models.AbstractModel):
         ('0', 'Normal'),
         ('1', 'Important'),
     ], default='0', index=True, string="Priority")
+    """

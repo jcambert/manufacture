@@ -20,11 +20,11 @@ class Model(models.AbstractModel):
     The system will later instantiate the class once per database (on
     which the class' module is installed).
     """
-    _auto = True                # automatically create database backend
+    _auto = False                # automatically create database backend
     _register = False           # not visible in ORM registry, meant to be python-inherited only
     _abstract = False           # not abstract
     _transient = False          # not transient
-
+    _name = 'model.mixin'
     _models= {}
     # @classmethod
     # def _build_model(self, pool, cr):
@@ -50,8 +50,10 @@ class Model(models.AbstractModel):
 class BaseArchive(models.AbstractModel):
     _name='archive.mixin'
     _description='Archive Mixin'
+    _inherit = ['model.mixin']
     active = fields.Boolean('Active',default=True)
 
+    @api.model
     def do_archive(self):
         for rec in self:
             rec.active = True
@@ -59,6 +61,7 @@ class BaseArchive(models.AbstractModel):
 class BaseSequence(models.AbstractModel):
     _name='sequence.mixin'
     _description='Sequence Mixin'
+    _inherit = ['model.mixin']
     _sequence_name=''
     sequence = fields.Char(string='Sequence',default=1,help="Ordering sequence")
 
@@ -82,6 +85,7 @@ class BaseSequence(models.AbstractModel):
 class BaseCompany(models.AbstractModel):
     _name='company.mixin'
     _description='Company Mixin'
+    _inherit = ['model.mixin']
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
 
 class BaseCompanyCurrency(models.AbstractModel):
@@ -89,9 +93,11 @@ class BaseCompanyCurrency(models.AbstractModel):
     _description='Company Mixin'
     _inherit=['company.mixin']
     currency_id = fields.Many2one('res.currency', related="company_id.currency_id", string="Currency", readonly=True,store=True)
+
 class BaseColor(models.AbstractModel):
     _name='color.mixin'
     _description='Color Mixin'
+    _inherit = ['model.mixin']
     def _get_default_color(self):
         return randint(1, 11)
 
@@ -100,7 +106,7 @@ class BaseColor(models.AbstractModel):
 class BaseKanbanState(models.AbstractModel):
     _name='kanban.mixin'
     _description='kanban Mixin'
-
+    _inherit = ['model.mixin']
     kanban_state = fields.Selection([
         ('normal', 'In Progress'),
         ('done', 'Ready'),
@@ -117,6 +123,7 @@ class BaseKanbanState(models.AbstractModel):
 class BasteState(models.AbstractModel):
     _name='state.mixin'
     _description='State Mixin'
+    _inherit = ['model.mixin']
     state = fields.Selection([
         ('draft', 'Draft'),
         ('running', 'Running'),
@@ -128,7 +135,7 @@ class BasteState(models.AbstractModel):
 class BasePriority(models.AbstractModel):
     _name='priority.mixin'
     _description='Priority Mixin'
-
+    _inherit = ['model.mixin']
     priority = fields.Selection([
         ('0', 'Normal'),
         ('1', 'Important'),
