@@ -5,7 +5,7 @@ from odoo import models, fields, api
 class EcoType(models.Model):
     _name = 'mrp.plm.eco.type'
     _description = 'Eco Type'
-    _inherit = ['mail.thread', 'mail.alias.mixin', 'mail.activity.mixin','archive.mixin', 'sequence.mixin', 'company.mixin', 'color.mixin']
+    _inherit = ['mail.thread', 'mail.alias.mixin', 'mail.activity.mixin','we.archive.mixin', 'we.sequence.mixin', 'we.company.mixin', 'we.color.mixin']
     _order = "sequence, name, id"
     _check_company_auto = True
     _sequence_name='mrp.plm.eco.type'

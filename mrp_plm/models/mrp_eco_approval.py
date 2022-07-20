@@ -6,7 +6,7 @@ class EcoApproval(models.Model):
     _name='mrp.plm.eco.approval'
     _description='Eco Approval'
     _inherits = {'mrp.plm.eco.approval.template': 'approval_template_id'}
-    _inherit=['sequence.mixin']
+    _inherit=['we.sequence.mixin']
     _order="sequence desc,id"
     _sequence_name='mrp.plm.eco.approval'
     sequence = fields.Integer(string='Sequence',default=1,help="Ordering sequence")

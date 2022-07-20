@@ -4,7 +4,7 @@ from odoo import models, fields, api
 class EcoApprovalTemplate(models.Model):
     _name='mrp.plm.eco.approval.template'
     _description='Eco Approval Template'
-    _inherit=['sequence.mixin']
+    _inherit=['we.sequence.mixin']
     _order="sequence,id"
     sequence = fields.Integer(string='Sequence',default=1,help="Ordering sequence")
     approval_type=fields.Selection([

@@ -25,7 +25,7 @@
     'category': 'Productivity',
     'version': '1.0',
     # any module necessary for this one to work correctly
-    'depends': ['base','metal_common','mrp','product','sale', 'mail', 'uom'],
+    'depends': ['metal_common','base','mrp','product','sale', 'mail', 'uom'],
 
     # always loaded
     'data': [

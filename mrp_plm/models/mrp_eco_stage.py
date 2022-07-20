@@ -7,7 +7,7 @@ from odoo.exceptions import UserError, ValidationError
 class EcoStage(models.Model):
     _name = 'mrp.plm.eco.stage'
     _description = 'Eco Stage'
-    _inherit = ['sequence.mixin']
+    _inherit = ['we.sequence.mixin']
     _order = "sequence, id"
     _sequence_name='mrp.plm.eco.stage'
     allow_apply_change = fields.Boolean('Allow apply changes', help='Is this step allowing made changes')

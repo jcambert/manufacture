@@ -7,7 +7,7 @@ class Eco(models.Model):
     _name = 'mrp.plm.eco'
     _description='Ordre de Modification Technique (OMT)'
     _inherit = ['mail.activity.mixin', 'mail.thread.cc', 'mail.alias.mixin',
-                'archive.mixin', 'sequence.mixin', 'company.mixin', 'color.mixin','kanban.mixin','priority.mixin']
+                'we.archive.mixin', 'we.sequence.mixin', 'we.company.mixin', 'we.color.mixin','we.kanban.mixin','we.priority.mixin']
     
     _order = "sequence , name, id"
     _check_company_auto = True
