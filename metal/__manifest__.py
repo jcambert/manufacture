@@ -20,17 +20,18 @@
     'category': 'Productivity',
     'version': '1.0',
     # any module necessary for this one to work correctly
-    'depends': ['base','mrp','product',  'uom','website'],
+    'depends': ['metal_common','base','mrp','product',  'uom','website'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'data/uom.xml',
         'data/product_categories.xml',
+        'data/normative_body.xml',
         'data/material.xml',
         'data/profiles.xml',
         'data/settings.xml',
-        'data/product/product_attribute.xml',
+        'data/product_attribute.xml',
         'views/product/product_views.xml',
         'views/material/material_views.xml',
         'views/profile/profile_views.xml',
@@ -38,7 +39,7 @@
         # 'views/res_config_settings_view.xml',
         'views/product/product_attribute_views.xml',
         'views/product/product_category_views.xml',
-        'menus/quotation_menu.xml',
+        'menus/metal_menu.xml',
         # 'views/assets.xml',
     ],
     'qweb': ['static/src/xml/*.xml'],

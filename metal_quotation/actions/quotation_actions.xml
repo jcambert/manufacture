@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_quotation_action" model="ir.actions.act_window">
+        <field name="name">Quotation</field>
+        <field name="res_model">metal.quotation</field>
+        <field name="view_mode">form</field>
+        <field name="domain">[('quotation_tmpl_id', '=',active_id)]</field>
+        <field name="context">{ 'default_quotation_tmpl_id': active_id}</field>
+    </record>
+</odoo>

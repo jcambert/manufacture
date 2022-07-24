@@ -1,6 +1,6 @@
 _models={'attribute':'product.attribute'}
 
-from . import models
+# from . import models
 from . import settings
 from . import convention
 from . import category

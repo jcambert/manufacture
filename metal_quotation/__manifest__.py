@@ -19,13 +19,23 @@
     'category': 'Productivity',
     'version': '1.0',
     # any module necessary for this one to work correctly
-    'depends': ['metal'],
+    'depends': ['metal','mrp'],
 
     # always loaded
     'data': [
         'data/ir_sequence_data.xml',
         'security/quotation_security.xml',
         'security/ir.model.access.csv',
+        'actions/quotation_actions.xml',
+        'actions/product_actions.xml',
+        'actions/workcenter_actions.xml',
+        'views/quotation/metal_quotation_template_view_form.xml',
+        'views/quotation/metal_quotation_view_form.xml',
+        'views/product/metal_product_form_view.xml',
+        'views/workcenter/metal_wokcenter_form_view.xml',
+        'views/workcenter/metal_workcenter_cutting_speed_tree_view.xml',
+        'actions/quotation_menus_actions.xml',
+        'menus/quotation_menu.xml',
        
     ],
     'qweb': ['static/src/xml/*.xml'],

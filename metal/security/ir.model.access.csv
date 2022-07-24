@@ -3,3 +3,6 @@ access_metal_material,metal product user,model_metal_material,mrp.group_mrp_mana
 access_metal_tag,metal product user,model_metal_tag,mrp.group_mrp_manager,1,1,1,1
 access_metal_profile,metal product user,model_metal_profile,mrp.group_mrp_manager,1,1,1,1
 access_metal_profile_type,metal product user,model_metal_profile_type,mrp.group_mrp_manager,1,1,1,1
+access_metal_normative_body,metal product user,model_metal_normative_body,mrp.group_mrp_manager,1,1,1,1
+metal.access_metal_convention,access_metal_convention,metal.model_metal_convention,mrp.group_mrp_manager,1,1,1,1
+metal.access_metal_material_template,access_metal_material_template,metal.model_metal_material_template,mrp.group_mrp_manager,1,1,1,1

@@ -3,6 +3,7 @@
     <data>
 
 
+     
         <record id="inherit_mrp_eco_production_form_view" model="ir.ui.view">
             <field name="name">mrp.eco.production.view.form.inherit</field>
             <field name="model">mrp.production</field>

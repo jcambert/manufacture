@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="quotation_template" model="ir.actions.act_window">
+        <field name="name">Template</field>
+        <field name="res_model">metal.quotation.template</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+
+    </record>
+
+    <record id="quotation" model="ir.actions.act_window">
+        <field name="name">Quotation</field>
+        <field name="res_model">metal.quotation</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+
+    </record>
+</odoo>

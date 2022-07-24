@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_workcenter_cutting_speed_view_tree" model="ir.ui.view">
+        <field name="name">mrp.workcenter.cutting.speed.view.tree</field>
+        <field name="model">mrp.workcenter.cutting.speed</field>
+        <field name="arch" type="xml">
+            <tree string="Cutting Speed" editable="bottom">
+                <field name="workcenter_id" />
+                <field name="material_id" />
+                <field name="thickness" />
+                <field name="gas" />
+                <field name="speed_ext" />
+                <field name="speed_int" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

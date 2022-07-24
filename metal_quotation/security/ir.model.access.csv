@@ -3,3 +3,6 @@ access_quotation_template_user,metal.quotation.template.user,model_metal_quotati
 access_quotation_template_manager,metal.quotation.template.user,model_metal_quotation_template,metal_quotation.group_metal_quotation_manager,1,1,1,1
 access_quotation_user,metal.quotation.user,model_metal_quotation,metal_quotation.group_metal_quotation_user,1,0,0,0
 access_quotation_manager,metal.quotation.user,model_metal_quotation,metal_quotation.group_metal_quotation_manager,1,1,1,1
+access_quotation_product_manager,metal.quotation.user,model_metal_quotation_product,metal_quotation.group_metal_quotation_manager,1,1,1,1
+access_mrp_workcenter_cutting_speed_user,mrp.workcenter.cutting.speed,model_mrp_workcenter_cutting_speed,mrp.group_mrp_user,1,0,0,0
+access_mrp_workcenter_cutting_speed_manager,mrp.workcenter.cutting.speed.manager,model_mrp_workcenter_cutting_speed,mrp.group_mrp_manager,1,1,1,1

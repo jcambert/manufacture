@@ -3,7 +3,7 @@ from odoo import models, fields, api,_,tools
 from odoo.exceptions import AccessError, UserError,ValidationError
 
 class MaterialTemplate(models.Model):
-    _name='material.template'
+    _name='metal.material.template'
     _description='Material Template'
     _order='name'
     _sql_constraints = [
@@ -27,15 +27,15 @@ class Material(models.Model):
     _name='metal.material'
     _description='Generic Material'
     _inherit=['metal.convention']
-    _inherits = {'material.template': 'material_tmpl_id'}
+    _inherits = {'metal.material.template': 'material_tmpl_id'}
     _order='name'
     _sql_constraints = [
         ('name_uniq','unique(name)',"This name already exist !")
     ]
     name=fields.Char('Name',required=True)
-    material_tmpl_id=fields.Many2one('material.template','Material Template',required=True,ondelete='cascade')
+    material_tmpl_id=fields.Many2one('metal.material.template','Material Template',required=True,ondelete='cascade')
     default=fields.Boolean('Default',default=False)
-    normative_body=fields.Many2one('normative.body','Normative Body',required=True)
+    normative_body=fields.Many2one('metal.normative.body','Normative Body',required=False)
     equivalent=fields.Many2many('metal.material','metal_material_equivalent_rel','material_id','equivalent_id','Equivalent')
     
 class NormativeBody(models.Model):
@@ -45,7 +45,8 @@ class NormativeBody(models.Model):
     _sql_constraints = [
         ('name_uniq','unique(name)',"This name already exist !")
     ]
-    name=fields.Char('Name',required=True)
+    _inherit=['we.tag.mixin']
     description=fields.Text('Description')
+    material_ids=fields.One2many('metal.material','normative_body','Materials')
 
  

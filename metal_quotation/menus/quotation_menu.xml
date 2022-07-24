@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="quotation_menu" name="Quotation" sequence="180" web_icon="mrp_plm,static/description/icon.png">
+        <menuitem id="metal_datas_menu" name="Datas" sequence="15">
+            <menuitem id="metal_quotation_menu" name="Quotation" sequence="5" action="metal_quotation.quotation" />
+            <menuitem id="metal_product_menu" name="Product" sequence="20" action="metal_quotation.view_product_action" />
+        </menuitem>
+        <menuitem id="metal_config_menu" name="Configuration" sequence="100">
+            <menuitem id="metal_quotation_template_menu" name="Template" sequence="5" action="metal_quotation.quotation_template" />
+            <menuitem id="metal_mrp_workcenter_menu" name="Workcenters" sequence="15" action="mrp.mrp_workcenter_action" />
+            <menuitem id="metal_mrp_workcenter_cutting_speed_menu" name="Cutting Speed" sequence="25" action="metal_quotation.view_workcenter_cutting_speed_action" />
+        </menuitem>
+
+        
+    </menuitem>
+
+</odoo>
