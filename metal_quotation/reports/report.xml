@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_metal_quotation" model="ir.actions.report">
+        <field name="name">Quotation</field>
+        <field name="model">metal.quotation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">metal_quotation.quotation_report</field>
+        <field name="report_file">metal_quotation.quotation_report</field>
+        <field name="print_report_name">'Quotation - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_metal_quotation"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

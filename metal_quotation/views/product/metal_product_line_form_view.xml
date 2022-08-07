@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_product_line_view_form" model="ir.ui.view">
+        <field name="name">metal.quotation.product.line.view.form</field>
+        <field name="model">metal.quotation.product.line</field>
+        <field name="arch" type="xml">
+            <form string="Product Line">
+                <sheet>
+                    <group>
+                        <field name="description" />
+                        <field name="nb" string="Action Number" />
+                        <field name='quotation_operation_id' string="Operation" />
+                        <field name='operation_time' string="Operation Time" />
+                        <field name='operation_cost' string="Operation Cost" />
+                        <field name='piece_cadence' string="Piece Cadence" />
+                        <field name='piece_time' string="Piece Time" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

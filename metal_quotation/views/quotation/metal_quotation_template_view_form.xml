@@ -47,6 +47,17 @@
                                 </group>
                             </group>
                         </page>
+                        <page name="note" string="Note">
+                            <field name="note" />
+                        </page>
+                        <page name="prices" string="Prices">
+                            <group>
+                                <group>
+                                    <field name="quantities" />
+                                    <field name="margins" />
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

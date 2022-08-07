@@ -3,16 +3,29 @@
 
     <menuitem id="quotation_menu" name="Quotation" sequence="180" web_icon="mrp_plm,static/description/icon.png">
         <menuitem id="metal_datas_menu" name="Datas" sequence="15">
-            <menuitem id="metal_quotation_menu" name="Quotation" sequence="5" action="metal_quotation.quotation" />
-            <menuitem id="metal_product_menu" name="Product" sequence="20" action="metal_quotation.view_product_action" />
+            <menuitem id="metal_quotation_menu" name="Quotation" sequence="5" action="quotation" />
+            <menuitem id="metal_product_menu" name="Product" sequence="20" action="view_product_action" />
+        </menuitem>
+        <menuitem id="metal_materials_menu" name="Materials" sequence="20">
+            <menuitem id="metal_material_template_menu" name="Template" sequence="5" action="view_material_template_action" />
+            <menuitem id="metal_material_menu" name="Material" sequence="10" action="view_material_action" />
+        </menuitem>
+        <menuitem id="metal_operations_menu" name="Operations" sequence="30">
+            <menuitem id="metal_operation_template_menu" name="Template" sequence="5" action="view_operation_template_action" />
+            <menuitem id="metal_operation_menu" name="Operation" sequence="10" action="view_operation_action" />
+        </menuitem>
+        <menuitem id="metal_components_menu" name="Components" sequence="30">
+            <menuitem id="metal_component_template_menu" name="Template" sequence="5" action="view_component_template_action" />
+            <menuitem id="metal_component_menu" name="Component" sequence="10" action="view_component_action" />
         </menuitem>
         <menuitem id="metal_config_menu" name="Configuration" sequence="100">
-            <menuitem id="metal_quotation_template_menu" name="Template" sequence="5" action="metal_quotation.quotation_template" />
-            <menuitem id="metal_mrp_workcenter_menu" name="Workcenters" sequence="15" action="mrp.mrp_workcenter_action" />
-            <menuitem id="metal_mrp_workcenter_cutting_speed_menu" name="Cutting Speed" sequence="25" action="metal_quotation.view_workcenter_cutting_speed_action" />
+            <menuitem id="metal_quotation_template_menu" name="Quotations Template" sequence="5" action="quotation_template" />
+            <menuitem id="metal_material_volmass_menu" name="Material Volumic Mass" sequence="22" action="view_metal_quotation_material_volumic_mass_action" />
+            <menuitem id="metal_mrp_workcenter_menu" name="Workcenters" sequence="25" action="mrp.mrp_workcenter_action" />
+            <menuitem id="metal_mrp_workcenter_cutting_speed_menu" name="Cutting Speed" sequence="30" action="view_workcenter_cutting_speed_action" />
         </menuitem>
 
-        
+
     </menuitem>
 
 </odoo>

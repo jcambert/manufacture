@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_component_template_action" model="ir.actions.act_window">
+        <field name="name">Components Templates</field>
+        <field name="res_model">metal.quotation.component.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain" >[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="view_component_action" model="ir.actions.act_window">
+        <field name="name">Components</field>
+        <field name="res_model">metal.quotation.component</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="metal_quotation_component_template_action_server" model="ir.actions.server">
+        <field name="name">Use this Components in Quotation</field>
+        <field name="model_id" ref="model_metal_quotation_component_template"/>
+        <field name="binding_model_id" ref="model_metal_quotation_component_template"/>
+        <field name="state">code</field>
+        <field name="code">
+        
+            action = {
+                'name': 'Add Components To Quotation',
+                'type': 'ir.actions.act_window',
+                'res_model': 'metal.add.components.templates.quotation.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_component_tmpl_ids': records.ids},
+            }
+        </field>
+    </record>
+</odoo>

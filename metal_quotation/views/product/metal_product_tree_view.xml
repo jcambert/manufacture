@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_product_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.product.view.tree</field>
+        <field name="model">metal.quotation.product</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="name" />
+                <field name="description" />
+                <field name="revision" />
+                <field name="quotation_id" />
+                <field name="total_component_cost" string="Component"/>
+                <field name="total_subcontracting_cost" string="Subcontracting"/>
+                
+                <field name="material_margin"  optional="visible"/>
+                <field name="component_margin"  optional="visible"/>
+                <field name="be_time"  optional="visible"/>
+                <field name="be_cost"  optional="visible"/>
+                <field name="fad_cost"  optional="visible"/>
+                <field name="tool_cost"  optional="visible"/>
+                <field name="st_margin"  optional="visible"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

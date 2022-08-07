@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_component_base" model="metal.quotation.component.template">
+        <field name="name">Base Component</field>
+        <field name="description">Composant de base pour utilisation ponctuelle</field>
+        <field name="unit_cost">0.0</field>
+        <field name="base" >True</field>
+    </record>
+    <record id="metal_quotation_component_ecrou_acier_m6" model="metal.quotation.component.template">
+        <field name="name">Ecrou acier &lt;=M6</field>
+        <field name="description">Ecrou acier jusqu'a M6</field>
+        <field name="unit_cost">0.15</field>
+    </record>
+    <record id="metal_quotation_component_goujon_acier_m6" model="metal.quotation.component.template">
+        <field name="name">Goujon acier &lt;=M6</field>
+        <field name="description">Goujon acier jusqu'a M6</field>
+        <field name="unit_cost">0.30</field>
+    </record>
+</odoo>

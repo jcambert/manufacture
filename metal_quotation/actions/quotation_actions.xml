@@ -7,4 +7,6 @@
         <field name="domain">[('quotation_tmpl_id', '=',active_id)]</field>
         <field name="context">{ 'default_quotation_tmpl_id': active_id}</field>
     </record>
+
+ 
 </odoo>

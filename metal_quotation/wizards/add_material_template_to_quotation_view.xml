@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_add_material_template_to_quotation_wizard_view_form" model="ir.ui.view">
+        <field name="name">metal.add.material.template.to.quotation.wizard.view.form</field>
+        <field name="model">metal.add.material.template.to.quotation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Material to Quotation">
+                <group>
+                    <group>
+
+                        <field name="material_tmpl_id" />
+                        <field name="quotation_id" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_add_template" string="Add Material" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="metal_add_materials_templates_to_quotation_wizard_view_form" model="ir.ui.view">
+        <field name="name">metal.add.materials.templates.to.quotation.wizard.view.form</field>
+        <field name="model">metal.add.materials.templates.quotation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Materials to Quotation">
+                <group>
+                    <group>
+
+                        <field name="quotation_id" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_add_template" string="Add Material" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="metal_add_material_template_to_quotation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Material Template to Quotation</field>
+        <field name="res_model">metal.add.material.template.to.quotation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_material_tmpl_id':active_id}</field>
+    </record>
+    <record id="metal_quotation_add_material_template_to_quotation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Material Template to Quotation</field>
+        <field name="res_model">metal.add.material.template.to.quotation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_quotation_id':active_id}</field>
+    </record>
+
+    <record id="metal_quotation_add_materials_templates_to_quotation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Materials Templates to Quotation</field>
+        <field name="res_model">metal.add.materials.templates.quotation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_material_tmpl_ids':active_ids}</field>
+    </record>
+</odoo>

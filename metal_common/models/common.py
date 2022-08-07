@@ -25,6 +25,7 @@ class Model(models.AbstractModel):
     # _abstract = False           # not abstract
     # _transient = False          # not transient
     _name = 'model.mixin'
+    _description = 'Model Mixin'
     _models= {}
     # @classmethod
     # def _build_model(self, pool, cr):

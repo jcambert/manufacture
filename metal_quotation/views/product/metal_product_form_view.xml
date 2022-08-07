@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="metal_product_view_form" model="ir.ui.view">
-        <field name="name">metal.product.view.form</field>
+    <record id="metal_quotation_product_view_form" model="ir.ui.view">
+        <field name="name">metal.quotation.product.view.form</field>
         <field name="model">metal.quotation.product</field>
         <field name="arch" type="xml">
             <form string="Product">
@@ -19,11 +19,100 @@
                         <h1>
                             <field name="name" placeholder="Name"/>
                         </h1>
+                        <label class="oe_edit_only" for="description" string="Description"/>
                         <h3>
-                            <field name="revision" />
+                            <field name="description" />
                         </h3>
-                        <field name="description" />
+                        <group >
+                            <group>
+                                <field name="revision" />
+                                <field name="quotation_id" string="Quotation" attrs="{'invisible':True}"/>
+                                <field name="qty" />
+                            </group>
+                        </group>
                     </div>
+                    <group name="costs" string="Costs">
+                        <group>
+                            <field name="total_preparation_cost" string="Preparation Cost" />
+                            <field name="total_operation_cost" string="Operation Cost"/>
+                        </group>
+                        <group>
+                            <field name="total_component_cost" string="Components Cost" />
+                            <field name="total_subcontracting_cost" string="Subcontracting Cost" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="operation" string="Operation">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="quotation_operation_id" />
+                                    <field name="nb" />
+                                    <field name="preparation_time" string="Tps prep"/>
+                                    <field name="preparation_cost" string="Ct Prep"/>
+                                    <field name="operation_time" string="Tps Op" />
+                                    <field name="operation_cost" string="Ct Op"/>
+                                    <field name="piece_cadence" string="P/H"/>
+                                    <field name="piece_time" string="Tps/Piece"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="material" string="Materials">
+                            
+                        </page>
+                    
+                        <page name="components" string="Components">
+                            <field name="components_ids" context="{'default_is_template': False}">
+                                <tree editable="bottom">
+                                    <field name="component_id" />
+                                    <field name="description" />
+                                    <field name="unit_cost" />
+                                    <field name="nb" />
+                                    <field name="cost" />
+                                    <field name="is_template" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="subcontracting" string="Subcontractings">
+                            <field name="subcontract_ids">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="cost" string="Cost"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="prices" string="Prices">
+                            <field name="price_ids">
+                                <tree>
+                                    <field name="qty" />
+                                    <field name="margin" />
+                                    <field name="price" />
+                                    <field name="total_subcontracting_cost" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="General Information" name="general_information">
+                            <group >
+                                <group name="material" string="Material">
+                                    <field name="material_margin"/>
+                                    <field name="component_margin"/>
+
+                                </group>
+                                <group name="engineering" string="Engineering">
+                                    <field name="be_time" />
+                                    <field name="be_cost" />
+                                </group>
+                                <group name="other" string="Other">
+                                    <field name="fad_cost" />
+                                    <field name="tool_cost" />
+                                    <field name="st_margin" />
+                                </group>
+
+                            </group>
+                        </page>
+                        <page name="note" string="Notes">
+                            <field name="note" />
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

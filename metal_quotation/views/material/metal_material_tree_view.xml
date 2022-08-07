@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_material_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.material.view.tree</field>
+        <field name="model">metal.quotation.material</field>
+        <field name="arch" type="xml">
+            <tree string="Material">
+                <field name="material_tmpl_id"/>
+                <field name="name"/>
+                <field name="price"/>
+                <field name="quotation_id"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="write_date"/>
+                <field name="write_uid"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

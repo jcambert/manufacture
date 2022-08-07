@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.view.tree</field>
+        <field name="model">metal.quotation</field>
+        <field name="arch" type="xml">
+            <tree string="Quotation ">
+                <field name="id" invisible="True"/>
+                <field name="name" />
+                <field name="description" optional="hidden"/>
+                <field name="date_order" />
+                <field name="total_subcontracting_cost" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

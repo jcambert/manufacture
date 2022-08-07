@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="metal_quotation.quotation_report">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                        <table class="table table-bordered border-primary">
+                            <thead>
+                                <tr class="m-0">
+                                    <th class="w-25">
+                                        <t t-esc="o.estimator.name"/>
+                                    </th>
+                                    <th class="w-auto">
+                                        <t t-esc="o.description"/>
+                                    </th>
+                                    <th class="w-25">
+                                        <t t-if="o.revision">
+                                        Indice: <t t-esc="o.revision"/>
+                                        </t>
+                                    </th>
+                                </tr>
+                                <tr class="m-0">
+                                    <th class="w-10">
+                                        <t t-esc="o.name"/>
+                                    </th>
+                                    <th class="w-80">
+                                        <t t-esc="o.description2"/>
+                                    </th>
+                                    <th class="w-10">
+                                        <t t-esc="o.create_date" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-3">
+                            Cout composants
+                            </div>
+                            <div class="col-9">
+                                <t t-esc="o.total_component_cost"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                            Cout Preparations
+                            </div>
+                            <div class="col-9">
+                                <t t-esc="o.total_preparation_cost"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                            Cout Operations
+                            </div>
+                            <div class="col-9">
+                                <t t-esc="o.total_operation_cost"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                            Cout Sous-traitance
+                            </div>
+                            <div class="col-9">
+                                <t t-esc="o.total_subcontracting_cost"/>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="row m-0 p-0">
+                                <div class="col-2 text-right">
+                                    <p>Quantite</p>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <p>Coef</p>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <p>Prix</p>
+                                </div>
+                            </div>
+
+
+                            <t t-foreach="o.prices_ids" t-as="price">
+                                <div class="row m-0 p-0">
+                                    <div class="col-2 text-right">
+                                        <t t-esc="price.qty" t-options='{"widget": "float", "decimal_precision": "Product Unit of Measure"}'/>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <t t-esc="price.margin"/>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <t t-esc="price.price" t-options="{'widget': 'monetary',  'display_currency': o.currency_id}"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                        <footer class="footer mt-auto py-3 bg-light">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="text-muted">
+                                            <t t-raw="o.quotation_note"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

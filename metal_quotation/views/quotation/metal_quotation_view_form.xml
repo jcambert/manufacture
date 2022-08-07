@@ -6,10 +6,29 @@
         <field name="model">metal.quotation</field>
         <field name="arch" type="xml">
             <form string="Quotation ">
+                <field name="id" invisible="True"/>
                 <header>
-                    <button name="copy_revision" type="object" string="Add Revision"/>
+                    <field name="state" widget="statusbar" context="{'state': state}" clickable="0"/>
+                    <button name="copy_revision" type="object" string="Add Revision" attrs="{'invisible':[('id', '=', False)]}"/>
+                    <button name="add_product" type="object" string="Add Product" attrs="{'invisible':[('id', '=', False)]}"/>
+
+                    <button name="use_operations" type="object" string="Add Templates Operations" attrs="{'invisible':[('id', '=', False)]}"/>
+                    <button name="use_materials" type="object" string="Add Templates Materials" attrs="{'invisible':[('id', '=', False)]}"/>
+                    <button name="use_components" type="object" string="Add Templates Components" attrs="{'invisible':[('id', '=', False)]}"/>
                 </header>
                 <sheet>
+                    <field name="active" invisible="1" />
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="%(view_product_action)d" icon="fa-th-list" type="action" context="{'search_default_quotation_id': active_id, 'default_quotation_id': active_id}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="product_count"/>
+                                </span>
+                                <span class="o_stat_text"> Products</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                     <div class="oe_title">
                         <h1>
                             <field name="priority" widget="priority" class="mr-3"/>
@@ -21,20 +40,40 @@
                             <field name="description" />
                         </group>
                         <group>
+                            <field name="estimator"/>
                             <field name="quotation_tmpl_id" string="Template" />
                         </group>
                     </group>
-                    <notebook>
-                        <page string="Products">
+                    <group name="costs" string="Costs" attrs="{'invisible':[('id', '=', False)]}">
+                        <group>
+                            <field name="total_preparation_cost" string="Preparation"/>
+                            <field name="total_operation_cost" string="Operation"/>
+                        </group>
+                        <group>
+                            <field name="total_component_cost" string="Components"/>
+                            <field name="total_subcontracting_cost" string="Subcontracting" />
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible':[('id', '=', False)]}">
+                        <page name="products" string="Products">
                             <field name="product_ids">
-                                <tree>
+                                <tree edit="0" create="0">
                                     <field name="name" />
-                                    <field name="revision" />
-                                    <field name="description" />
+                                    <field name="revision"  />
+                                    <field name="description"/>
+                                    <field name="qty" />
+                                    <field name="total_subcontracting_cost" optional="hidden" />
                                 </tree>
                             </field>
                         </page>
-                        <page string="Subcontractings">
+                        <page name="prices" string="Prices">
+                            <field name="prices_ids">
+                                <tree>
+                                    <field name="qty" />
+                                    <field name="margin" />
+                                    <field name="price" />
+                                </tree>
+                            </field>
                         </page>
                         <page string="General Information" name="general_information">
                             <group >
@@ -52,8 +91,54 @@
                                     <field name="tool_cost" />
                                     <field name="st_margin" />
                                 </group>
-
+                                <group name="note" string="Default Note">
+                                    <field name="note" />
+                                </group>
                             </group>
+                        </page>
+                        <page name="materials" string="Materials">
+                            <field name="material_ids">
+                                <tree editable="bottom">
+                                    <field name="base" invisible="1"/>
+                                    <field name="material_tmpl_id" string="Base Name" options="{'no_open': True, 'no_create': True}" attrs="{'readonly':[('id','!=',False)],'invisible':[('base','=',False)]}" domain="[('base','=',True)]"/>
+                                    <field name="base_material_density" />
+                                    <field name="name" string="Material Name"/>
+                                    <field name="price" />
+                                    <field name="is_template" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="operations" string="Operations">
+                            <field name="operation_ids">
+                                <tree editable="bottom">
+                                    <field name="id" invisible="1"/>
+                                    <field name="base" invisible="1"/>
+                                    <field name="operation_tmpl_id" string="Base Name" options="{'no_open': True, 'no_create': True}"    domain="[('base','=',True)]"/>
+                                    <field name="name" />
+                                    <field name="help" optional="visible"/>
+                                    <field name="workcenter_id" />
+                                    <field name="preparation_cost" />
+                                    <field name="preparation_time" />
+                                    <field name="operation_cost" />
+                                    <field name="operation_base_time" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="components" string="Components">
+                            <field name="component_ids">
+                                <tree editable="bottom">
+                                    <field name="base" invisible="1"/>
+                                    <field name="component_tmpl_id" string="Base Name" options="{'no_open': True, 'no_create': True}" attrs="{'readonly':[('id','!=',False)],'invisible':[('base','=',False)]}" domain="[('base','=',True)]"/>
+                                    <field name="name" />
+                                    <field name="description" />
+                                    <field name="unit_cost" />
+                                    <field name="is_template" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="note" string="Notes">
+                            <field name="quotation_note" colspan="4" nolabel="1" />
                         </page>
                     </notebook>
                 </sheet>

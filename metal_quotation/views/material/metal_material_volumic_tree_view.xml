@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_material_volumic_mass_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.material.volumic.mass.view.tree</field>
+        <field name="model">metal.quotation.material.volumic.mass</field>
+        <field name="arch" type="xml">
+            <tree string="Volumic Mass" editable="bottom">
+                <field name="name"/>
+                <field name="density"/>
+                <field name="material_ids"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

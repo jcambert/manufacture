@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_add_product_to_quotation_wizard_view_form" model="ir.ui.view">
+        <field name="name">metal.add.product.to.quotation.wizard.view.form</field>
+        <field name="model">metal.add.product.to.quotation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add a product to quotation">
+                <group>
+                    <group>
+                        <field name="name" />
+                        <field name="description" />
+                        <field name="revision" />
+                        <field name="quotation_id" invisible="0"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_add_product" string="Add Product" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="metal_add_product_to_quotation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add Product To Quotation</field>
+        <field name="res_model">metal.add.product.to.quotation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_quotation_id':active_id}</field>
+    </record>
+</odoo>

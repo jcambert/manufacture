@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_operation_template_view_form" model="ir.ui.view">
+        <field name="name">metal.quotation.operation.template.view.form</field>
+        <field name="model">metal.quotation.operation.template</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            
+                            <field name="base" />
+                            <field name="name" />
+                            <field name="help" />
+                            <field name="workcenter_id" />
+                            <field name="operation_cost" />
+                            <field name="operation_base_time" />
+                            <field name="preparation_cost" />
+                            <field name="preparation_time" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

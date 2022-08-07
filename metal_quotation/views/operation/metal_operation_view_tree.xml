@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_operation_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.operation.view.tree</field>
+        <field name="model">metal.quotation.operation</field>
+        
+        <field name="arch" type="xml">
+            <tree string="Operations">
+                <field name="name" />
+                <field name="workcenter_id" />
+                <field name="operation_cost" />
+                <field name="operation_base_time" />
+                <field name="preparation_cost" />
+                <field name="preparation_time" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

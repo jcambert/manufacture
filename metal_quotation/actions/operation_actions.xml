@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+    <record id="view_operation_template_action" model="ir.actions.act_window">
+        <field name="name">Operations</field>
+        <field name="res_model">metal.quotation.operation.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain" >[]</field>
+        <field name="context">{ }</field>
+    </record>
+    <record id="view_operation_action" model="ir.actions.act_window">
+        <field name="name">Operations</field>
+        <field name="res_model">metal.quotation.operation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain" >[]</field>
+        <field name="context">{ }</field>
+    </record>
+    <record id="metal_quotation_operation_template_action_server" model="ir.actions.server">
+        <field name="name">Use this Operations in Quotation</field>
+        <field name="model_id" ref="model_metal_quotation_operation_template"/>
+        <field name="binding_model_id" ref="model_metal_quotation_operation_template"/>
+        <field name="state">code</field>
+        <field name="code">
+        
+            action = {
+                'name': 'Add Operations To Quotation',
+                'type': 'ir.actions.act_window',
+                'res_model': 'metal.add.operations.templates.quotation.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_operation_tmpl_ids': records.ids},
+            }
+        </field>
+    </record>
+</odoo>

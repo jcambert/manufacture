@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_metal_quotation_material_volumic_mass_action" model="ir.actions.act_window">
+        <field name="name">Quotation Material Volumic Mass</field>
+        <field name="res_model">metal.quotation.material.volumic.mass</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="view_material_template_action" model="ir.actions.act_window">
+        <field name="name">Quotation Material Template</field>
+        <field name="res_model">metal.quotation.material.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="view_material_action" model="ir.actions.act_window">
+        <field name="name">Quotation Material</field>
+        <field name="res_model">metal.quotation.material</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="metal_quotation_material_template_action_server" model="ir.actions.server">
+        <field name="name">Use this Materials in Quotation</field>
+        <field name="model_id" ref="model_metal_quotation_material_template"/>
+        <field name="binding_model_id" ref="model_metal_quotation_material_template"/>
+        <field name="state">code</field>
+        <field name="code">
+        
+            action = {
+                'name': 'Add Materials To Quotation',
+                'type': 'ir.actions.act_window',
+                'res_model': 'metal.add.materials.templates.quotation.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_material_tmpl_ids': records.ids},
+            }
+        </field>
+    </record>
+    
+</odoo>

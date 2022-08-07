@@ -22,7 +22,7 @@ class MrpCuttingSpeed(models.Model):
     _description='Workcenter whith cutting speed'
     _inherit=[]
     _order='workcenter_id,material_id,gas,thickness'
-    workcenter_id=fields.Many2one('mrp.workcenter',string='Workcenter',domain="[('center_type','=','laser')]")
+    workcenter_id=fields.Many2one('mrp.workcenter',string='Workcenter',domain=[('center_type','=','laser')])
     thickness=fields.Float(string='Thickness',required=True)
     speed_ext=fields.Integer(string='External Speed',help="meter per minute",required=True)
     speed_int=fields.Integer(string='Internal Speed',help="meter per minute",required=True)
