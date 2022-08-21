@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="%(view_workcenter_cutting_speed_action2)d" type="action" class="oe_stat_button" icon="fa-bar-chart">
+                <button name="%(view_workcenter_cutting_speed_action2)d" type="action" class="oe_stat_button" icon="fa-bar-chart" attrs="{'invisible':[('center_type','!=','laser')]}">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value">
                             <field name="laser_params_count" widget="statinfo" nolabel="1"/>
@@ -29,6 +29,11 @@
                 </page>
             </xpath>
 
+            <xpath expr="//page[@name='general_info']/group" position="inside">
+                <group string="Informations standards">
+                    <field name="center_type" string="Type" />
+                </group>
+            </xpath>
         </field>
     </record>
 

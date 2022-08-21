@@ -8,6 +8,9 @@
             <form string="Product Line">
                 <sheet>
                     <group>
+                        <field name="calculated" string="Is Calculated" />
+                        <field name="product_id"/>
+                        <field name="quotation_id"/>
                         <field name="description" />
                         <field name="nb" string="Action Number" />
                         <field name='quotation_operation_id' string="Operation" />
@@ -15,6 +18,8 @@
                         <field name='operation_cost' string="Operation Cost" />
                         <field name='piece_cadence' string="Piece Cadence" />
                         <field name='piece_time' string="Piece Time" />
+                        <button name="show_format_calculate_view" type="object" title="Format calculs" class="fa fa-th-list" attrs="{'invisible': [('calculated', '=', False)]}" />
+                        <button name="show_speed_calculate_view" type="object" title="Speed calculs" class="fa fa-ellipsis-h" attrs="{'invisible': [('calculated', '=', False)]}" />
                     </group>
                 </sheet>
             </form>

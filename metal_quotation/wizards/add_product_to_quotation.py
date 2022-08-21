@@ -37,7 +37,7 @@ class AddProductToQuotationWizard(models.TransientModel):
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'metal.copy.materials.templates.to.quotation.wizard',
+            'res_model': 'metal.quotation.product',
             'res_id': product.id,
             'target': 'current',
             'context': {'default_quotation_id': self.quotation_id.id}

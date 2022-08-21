@@ -9,4 +9,11 @@
         <field name="context">{ }</field>
     </record>
 
+    <record id="view_product_line_action" model="ir.actions.act_window">
+        <field name="name">Quotation Product Line</field>
+        <field name="res_model">metal.quotation.product.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
 </odoo>

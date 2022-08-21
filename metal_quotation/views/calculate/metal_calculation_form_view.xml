@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_calculation_view_form" model="ir.ui.view">
+        <field name="name">metal.quotation.calculation.view.form</field>
+        <field name="model">metal.quotation.calculation</field>
+        <field name="arch" type="xml">
+            <form string="Calculation" create="false" duplicate="0">
+                <header>
+
+                </header>
+                <sheet>
+                    <field name="active" invisible="1" />
+                    <div class="oe_button_box" name="button_box">
+
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="id" invisible="True"/>
+                    <group name="data" string="">
+                        <group string="Operation">
+                            <field name="product_line_id" />
+                        </group>
+                        <group string="Piece Dimensions">
+                            <field name="piece_length" string="Length"/>
+                            <field name="piece_width" string="width"/>
+                            <field name="piece_thickness" />
+                        </group>
+                        <group string="Gap">
+                            <field name="gap_x" string="X"/>
+                            <field name="gap_y" string="Y"/>
+                        </group>
+                        <group string="Clamp">
+                            <field name="clamp_y" string="Y"/>
+                        </group>
+                    </group>
+                    <group name="formats" string="Formats" attrs="{'invisible':[('id', '=', False)]}">
+                        <field name="format_ids">
+                            <tree editable="bottom" create="1" decoration-success="state=='best'" decoration-info="state==''" decoration-danger="state=='disabled'">
+                                <field name="sequence" widget="handle" />
+                                <field name="enabled" widget="boolean_toggle"/>
+                                <field name="length" />
+                                <field name="width" />
+                                <field name="qty_per_sheet"/>
+                                <field name="pct_loss" widget="percentage"/>
+                                <field name="format_x" string="Fmt Ideal X" optional="hide"/>
+                                <field name="format_y" string="Fmt Ideal Y" optional="hide" />
+                                <field name="state" widget="badge" decoration-success="state=='best'" decoration-info="state==''" decoration-danger="state=='disabled'"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

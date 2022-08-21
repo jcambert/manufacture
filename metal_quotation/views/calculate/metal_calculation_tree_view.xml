@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_calculation_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.calculation.view.tree</field>
+        <field name="model">metal.quotation.calculation</field>
+        <field name="arch" type="xml">
+            <tree string="Calculation">
+                <field name="id" invisible="1" />
+                <field name="active" invisible="1" />
+                <field name="piece_length" />
+                <field name="piece_width" />
+                <field name="piece_thickness" />
+                <field name="gap_x" />
+                <field name="gap_y" />
+                <field name="clamp_y" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="metal_quotation_calculation_cutting_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.calculation.cutting.view.tree</field>
+        <field name="model">metal.quotation.calculation.cutting</field>
+        <field name="arch" type="xml">
+            <tree string="Cutting Calculation">
+                <field name="workcenter_id" />
+                <field name="material_id" />
+                <field name="thickness" />
+                <field name="gas"/>
+                <field name="length" />
+                <field name="qty_small" />
+                <field name="qty_boot" />
+                <field name="vapo" />
+                <field name="low_speed" />
+                <field name="high_speed" />
+                <field name="value" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

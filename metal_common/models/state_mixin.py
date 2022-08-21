@@ -11,4 +11,4 @@ class StateMixin(models.AbstractModel):
         ('done','Done'),
         ('locked', 'Locked'),
         ('cancel', 'Cancelled'),
-        ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
+        ], string='Status', readonly=True, copy=False, index=True, default='draft')

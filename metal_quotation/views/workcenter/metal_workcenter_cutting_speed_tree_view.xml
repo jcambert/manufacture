@@ -6,6 +6,7 @@
         <field name="model">mrp.workcenter.cutting.speed</field>
         <field name="arch" type="xml">
             <tree string="Cutting Speed" editable="bottom">
+                <field name="material_volmass" />
                 <field name="workcenter_id" />
                 <field name="material_id" />
                 <field name="thickness" />

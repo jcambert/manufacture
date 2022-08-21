@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_metal_quotation_material_volumic_mass_action" model="ir.actions.act_window">
+    <!-- <record id="view_metal_quotation_material_volumic_mass_action" model="ir.actions.act_window">
         <field name="name">Quotation Material Volumic Mass</field>
         <field name="res_model">metal.quotation.material.volumic.mass</field>
         <field name="view_mode">tree</field>
         <field name="domain">[]</field>
         <field name="context">{ }</field>
-    </record>
+    </record> -->
 
     <record id="view_material_template_action" model="ir.actions.act_window">
         <field name="name">Quotation Material Template</field>

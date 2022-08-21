@@ -2,49 +2,42 @@
 <odoo>
 
     <data>
-        <record id="base_acier_volumic_mass" model="metal.quotation.material.volumic.mass">
-            <field name="name">Acier</field>
-            <field name="density">8.00</field>
-        </record>
-        <record id="base_inox_volumic_mass" model="metal.quotation.material.volumic.mass">
-            <field name="name">Inox</field>
-            <field name="density">8.00</field>
-        </record>
-        <record id="base_alu_volumic_mass" model="metal.quotation.material.volumic.mass">
-            <field name="name">Aluminium</field>
-            <field name="density">2.80</field>
-        </record>
+    
         <record id="material_template_base_acier" model="metal.quotation.material.template">
             <field name="name">Base Acier</field>
             <field name="base">True</field>
             <field name="price">0.0</field>
-            <field name="volumic_mass_id" ref="base_acier_volumic_mass"/>
+            <field name="base_template_id" ref="metal.material_template_steel"/>
         </record>
         <record id="material_template_base_inox" model="metal.quotation.material.template">
             <field name="name">Base Inox</field>
             <field name="base">True</field>
             <field name="price">0.0</field>
-            <field name="volumic_mass_id" ref="base_inox_volumic_mass"/>
+            <field name="base_template_id" ref="metal.material_template_stainlessteel"/>
         </record>
         <record id="material_template_base_alu" model="metal.quotation.material.template">
             <field name="name">Base Alu</field>
             <field name="base">True</field>
             <field name="price">0.0</field>
-            <field name="volumic_mass_id" ref="base_alu_volumic_mass"/>
+            <field name="base_template_id" ref="metal.material_template_aluminium"/>
         </record>
     </data>
     <data >
         <record id="material_template_xc10_lte_3" model="metal.quotation.material.template">
             <field name="name">Xc10 &lt;= 3</field>
             <field name="price">0.8</field>
-            <field name="volumic_mass_id" ref="base_acier_volumic_mass"/>
+            <field name="base_template_id" ref="metal.material_template_steel"/>
         </record>
         <record id="material_template_xc10_gt_3" model="metal.quotation.material.template">
             <field name="name">Xc10 &gt; 3</field>
             <field name="price">0.7</field>
-            <field name="volumic_mass_id" ref="base_acier_volumic_mass"/>
+            <field name="base_template_id" ref="metal.material_template_steel"/>
         </record>
-    
+        <record id="material_template_xc10_lte_3" model="metal.material.template">
+            <field name="name">Xc10 &lt;= 3</field>
+            <field name="price">0.8</field>
+            <field name="base_template_id" ref="metal.material_template_steel"/>
+        </record>
     </data>
     
 

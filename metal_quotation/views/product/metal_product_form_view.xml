@@ -26,7 +26,8 @@
                         <group >
                             <group>
                                 <field name="revision" />
-                                <field name="quotation_id" string="Quotation" attrs="{'invisible':True}"/>
+                                <field name="default_quotation_id" invisible="1"/>
+                                <field name="quotation_id" string="Quotation" attrs="{'invisible':[('default_quotation_id','!=',False)]}"/>
                                 <field name="qty" />
                             </group>
                         </group>
@@ -45,6 +46,7 @@
                         <page name="operation" string="Operation">
                             <field name="line_ids">
                                 <tree editable="bottom">
+                                    <field name="quotation_id" invisible="1"/>
                                     <field name="quotation_operation_id" />
                                     <field name="nb" />
                                     <field name="preparation_time" string="Tps prep"/>
@@ -53,6 +55,9 @@
                                     <field name="operation_cost" string="Ct Op"/>
                                     <field name="piece_cadence" string="P/H"/>
                                     <field name="piece_time" string="Tps/Piece"/>
+                                    <field name="calculated" string="Is Calculated" optional="visible" />
+                                    <button name="show_format_calculate_view" type="object" title="Format calculs" class="fa fa-th-list" attrs="{'invisible': [('calculated', '=', False)]}" />
+                                    <button name="show_speed_calculate_view" type="object" title="Speed calculs" class="fa fa-ellipsis-h" attrs="{'invisible': [('calculated', '=', False)]}" />
                                 </tree>
                             </field>
                         </page>
@@ -61,7 +66,7 @@
                         </page>
                     
                         <page name="components" string="Components">
-                            <field name="components_ids" context="{'default_is_template': False}">
+                            <field name="components_ids" >
                                 <tree editable="bottom">
                                     <field name="component_id" />
                                     <field name="description" />

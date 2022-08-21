@@ -53,7 +53,7 @@ class ProductTemplate(models.Model):
     material = fields.Many2one('metal.material','Material')
     finition = fields.Char('Finition',default='')
 
-    cattype=fields.Selection(related='categ_id.cattype',string='Type')
+    cattype=fields.Selection(related='categ_id.cattype',string='Category Type')
     protype=fields.Selection(related='categ_id.protype',string='Profile Type')
 
     weight_per_length=fields.Float('Weight per Unit Length') #if profile

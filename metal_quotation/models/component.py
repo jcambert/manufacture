@@ -20,7 +20,6 @@ class QuotationComponentTemplate(models.Model):
             data={
                 
                 'quotation_id':quotation_id,
-                'name':record.name,
                 'component_tmpl_id':record.id,
                 'name':record.name,
                 'description':record.description,

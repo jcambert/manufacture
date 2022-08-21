@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="metal_quotation_calcul_format_template_base" model="metal.quotation.calculation.format.template">
+        <field name="base">True</field>
+        <field name="length">0</field>
+        <field name="width" >0</field>
+    </record>
+   <record id="metal_quotation_calcul_format_template_xs" model="metal.quotation.calculation.format.template">
+        <field name="length">2000</field>
+        <field name="width" >1000</field>
+        <field name="reversable">True</field>
+    </record>
+    <record id="metal_quotation_calcul_format_template_md" model="metal.quotation.calculation.format.template">
+        <field name="length">2500</field>
+        <field name="width" >1250</field>
+        <field name="reversable">True</field>
+    </record>
+    <record id="metal_quotation_calcul_format_template_xl" model="metal.quotation.calculation.format.template">
+        <field name="length">3000</field>
+        <field name="width" >1500</field>
+        <field name="reversable">True</field>
+    </record>
+</odoo>

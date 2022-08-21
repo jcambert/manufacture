@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="metal_quotation_calculation_format_template_view_tree" model="ir.ui.view">
+        <field name="name">metal.quotation.calculation.format.template.view.tree</field>
+        <field name="model">metal.quotation.calculation.format.template</field>
+        <field name="arch" type="xml">
+            <tree string="Calcul Format Template"  editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="base"/>
+                <field name="length" />
+                <field name="width" />
+                <field name="reversable"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

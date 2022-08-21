@@ -9,7 +9,7 @@
                 <field name="sequence" widget="handle" />
                 <field name="base" />
                 <field name="name"/>
-                <field name="volumic_mass_id"/>
+                <field name="base_template_id"/>
                 <field name="material_ids"/>
                 <field name="price"/>
                 <field name="create_date"/>

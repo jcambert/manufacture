@@ -8,3 +8,4 @@ from . import product_subcontract
 from . import product_price
 from . import component
 from . import material  
+from . import calculate

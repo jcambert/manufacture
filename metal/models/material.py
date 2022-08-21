@@ -20,8 +20,9 @@ class MaterialTemplate(models.Model):
 
     name=fields.Char('Name',required=True)
     volmass=fields.Float('Volumic Mass',required=True,help="Volumic mass of the material")
-    volmass_uom=fields.Many2one('uom.uom','Volumic Mass',required=True,domain="[('category_id','=',volmass_uom_categ)]")
+    volmass_uom=fields.Many2one('uom.uom','Volumic Mass UOM',required=True,domain="[('category_id','=',volmass_uom_categ)]")
     volmass_uom_categ=fields.Many2one('uom.category', default=_get_default_volmass_uom_categ,store=False,readonly=True)
+    material_ids=fields.One2many('metal.material','material_tmpl_id','Materials')
 
 class Material(models.Model):
     _name='metal.material'
@@ -36,7 +37,7 @@ class Material(models.Model):
     material_tmpl_id=fields.Many2one('metal.material.template','Material Template',required=True,ondelete='cascade')
     default=fields.Boolean('Default',default=False)
     normative_body=fields.Many2one('metal.normative.body','Normative Body',required=False)
-    equivalent=fields.Many2many('metal.material','metal_material_equivalent_rel','material_id','equivalent_id','Equivalent')
+    # equivalent=fields.Many2many('metal.material','metal_material_equivalent_rel','material_id','equivalent_id','Equivalent')
     
 class NormativeBody(models.Model):
     _name='metal.normative.body'
