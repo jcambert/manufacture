@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="base_quotation_template" model="metal.quotation.template">
+        <field name="name">Base Template</field>
+        <field name="description">A base template for creating new quotation</field>
+        <field name="material_margin">35</field>
+        <field name="component_margin" >35</field>
+        <field name="be_time">15</field>
+        <field name="be_cost">60</field>
+        <field name="fad_cost">45</field>
+        <field name="fad_dist">True</field>
+        <field name="tool_cost">0</field>
+        <field name="st_margin">45</field>
+        <field name="note">Norme appliquee: NF02-352-n</field>
+        <field name="quantities">1,5,10,20,50,100</field>
+        <field name="margins">40,35,30,25,20,10</field>
+    </record>
+
+</odoo>

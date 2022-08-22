@@ -10,6 +10,7 @@ class QuotationMixin(models.AbstractModel):
     be_time = fields.Integer( string="Default Etude Time")
     be_cost = fields.Monetary( string="Default Be Cost")
     fad_cost = fields.Monetary( string="Default FAD Cost")
+    fad_dist=fields.Boolean(string="FAD Distribution by product",default=True)
     tool_cost = fields.Monetary( string="Default Tool Cost")
     st_margin = fields.Integer( string="Default ST Margin")
     note=fields.Text(string='Note')

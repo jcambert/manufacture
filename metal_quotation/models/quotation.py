@@ -136,7 +136,8 @@ class Quotation(models.Model):
         res.use_operations()
 
         #copy template component
-        tpls= self.env['metal.quotation.component'].search([]).copy_to_quotation(res.id)
+        # tpls= self.env['metal.quotation.component'].search([]).copy_to_quotation(res.id)
+        res.use_components()
 
         #copy template material
         res.use_materials()
@@ -276,6 +277,21 @@ class Quotation(models.Model):
         self.ensure_one()
         self.env['metal.quotation.material.template'].add_template_to_quotation(self.id)
 
+    def load_components_popup(self):
+        self.ensure_one()
+        return {
+            'name': 'Load Components',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'metal.add.components.templates.quotation.wizard',
+            'context': {'default_quotation_id': self.id},
+            'target': 'new',
+        }
+    
+    def use_components(self):
+        self.ensure_one()
+        self.env['metal.quotation.component.template'].add_template_to_quotation(self.id)
 
     def load_operations_popup(self):
         self.ensure_one()

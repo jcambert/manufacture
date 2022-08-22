@@ -47,7 +47,10 @@
                             <field name="line_ids">
                                 <tree editable="bottom">
                                     <field name="quotation_id" invisible="1"/>
+                                    <field name="has_format" invisible="1"/>
+                                    <field name="has_speed" invisible="1"/>
                                     <field name="quotation_operation_id" />
+                                    <field name="operation_help" optional="hidden"/>
                                     <field name="nb" />
                                     <field name="preparation_time" string="Tps prep"/>
                                     <field name="preparation_cost" string="Ct Prep"/>
@@ -57,7 +60,7 @@
                                     <field name="piece_time" string="Tps/Piece"/>
                                     <field name="calculated" string="Is Calculated" optional="visible" />
                                     <button name="show_format_calculate_view" type="object" title="Format calculs" class="fa fa-th-list" attrs="{'invisible': [('calculated', '=', False)]}" />
-                                    <button name="show_speed_calculate_view" type="object" title="Speed calculs" class="fa fa-ellipsis-h" attrs="{'invisible': [('calculated', '=', False)]}" />
+                                    <button name="show_speed_calculate_view" type="object" title="Speed calculs" class="fa fa-ellipsis-h" attrs="{'invisible': ['|',('calculated', '=', False),('has_format','=',False)]}" />
                                 </tree>
                             </field>
                         </page>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="metal_quotation_operation_template_base" model="metal.quotation.operation.template">
+            <field name="name">Base Operation</field>
+            <field name="help">Operation de base pour utilisation ponctuelle</field>
+            <field name="base">True</field>
+            <field name="workcenter_id" ref="workcenter_divers"/>
+            <field name="operation_cost">70</field>
+            <field name="operation_base_time">0.0</field>
+            <field name="preparation_cost">70</field>
+            <field name="preparation_time">0.2</field>
+        </record>
+        <record id="metal_quotation_operation_template_laser" model="metal.quotation.operation.template">
+            <field name="name">Decoupe Laser</field>
+            <field name="help"></field>
+            <field name="workcenter_id" ref="workcenter_laser_bystronic"/>
+            <field name="operation_cost">90</field>
+            <field name="operation_base_time">0.0</field>
+            <field name="preparation_cost">70</field>
+            <field name="preparation_time">0.15</field>
+        </record>
+        <record id="metal_quotation_operation_template_pliage_lt_500" model="metal.quotation.operation.template">
+            <field name="name">Pliage &lt; 500</field>
+            <field name="help"></field>
+            <field name="workcenter_id" ref="workcenter_laser_pliage_80t"/>
+            <field name="operation_cost">80</field>
+            <field name="operation_base_time">0.006</field>
+            <field name="preparation_cost">70</field>
+            <field name="preparation_time">0.15</field>
+        </record>
+        <record id="metal_quotation_operation_template_pliage_gt_500" model="metal.quotation.operation.template">
+            <field name="name">Pliage &gt; 500</field>
+            <field name="help"></field>
+            <field name="workcenter_id" ref="workcenter_laser_pliage_240t"/>
+            <field name="operation_cost">80</field>
+            <field name="operation_base_time">0.05</field>
+            <field name="preparation_cost">70</field>
+            <field name="preparation_time">0.15</field>
+        </record>
+    </data>
+</odoo>

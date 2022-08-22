@@ -63,7 +63,8 @@ class QuotationProductLine(models.Model):
     description=fields.Char(string='Description')
     nb=fields.Integer(string='Nb',help='Number of Action')
     quotation_operation_id=fields.Many2one('metal.quotation.operation',ondelete='cascade',string='Operation',domain="[('quotation_id','=',quotation_id)]")
-    
+    operation_help=fields.Text(string='Operation Help',related='quotation_operation_id.help')
+
     quotation_id=fields.Integer(related='product_id.quotation_id.id',string='Quotation')
     workcenter_id=fields.Many2one('mrp.workcenter',string='Workcenter',related='quotation_operation_id.workcenter_id')
 
@@ -81,6 +82,10 @@ class QuotationProductLine(models.Model):
     calculated=fields.Boolean(string='Calculated',related='quotation_operation_id.operation_tmpl_id.workcenter_id.calculated',store=False)
 
     calculation_ids=fields.One2many('metal.quotation.calculation','product_line_id',string='Calculations')
+
+    has_format=fields.Boolean(string='Has Format',compute='has_calculations',store=False)
+    has_speed=fields.Boolean(string='Has Speed',compute='has_calculations',store=False)
+
     def name_get(self):
         return [(rec.id, '{} - {} - {}'.format(rec.id, rec.product_id, rec.quotation_operation_id)) for rec in self]
 
@@ -103,12 +108,19 @@ class QuotationProductLine(models.Model):
         self.preparation_time = self.quotation_operation_id.preparation_time
         pass
 
+    def has_calculations(self):
+        for record in self:
+            record.has_format = bool(len(self.env['metal.quotation.calculation'].search([('product_line_id','=',record.id)],limit=1)))
+            record.has_speed = bool(len(self.env['metal.quotation.calculation.cutting'].search([('product_line_id','=',record.id)],limit=1)))
+            return True
+
     def show_format_calculate_view(self):
         self.ensure_one()
         try:
             calcul_id=self.env['metal.quotation.calculation'].search([('product_line_id','=',self.id)],limit=1).ensure_one()[0]
         except ValueError:
             calcul_id=self.env['metal.quotation.calculation'].create({'product_line_id':self.id})
+        self.update({'has_format':True})
         return {
             'name': 'Add a format',
             'type': 'ir.actions.act_window',
@@ -129,6 +141,7 @@ class QuotationProductLine(models.Model):
             material_id=self.env['metal.quotation.material'].search([('quotation_id','=',self.quotation_id)],limit=1).ensure_one()[0]
             thickness=self.env['metal.quotation.calculation'].search([('product_line_id','=',self.id)],limit=1).ensure_one()[0]
             calcul_id=self.env['metal.quotation.calculation.cutting'].create({'product_line_id':self.id,'workcenter_id':self.workcenter_id.id,'material_id':material_id.id,'thickness':thickness.piece_thickness})
+        self.update({'has_speed':True})
         return {
             'name': 'Add a speed',
             'type': 'ir.actions.act_window',
