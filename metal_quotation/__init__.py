@@ -7,10 +7,11 @@ from . import reports
 
 def _auto_install_workcenter_laser_speed(self):
     convert_file(
+        self.cr,
         'metal_quotation',
-        'data/Laser_3015_cutting_speed.xlsx',
+        'data/mrp.workcenter.cutting.speed.csv',
         {},
-        'update',
+        'init',
     )
 
 def _quotation_post_init(cr, registry):

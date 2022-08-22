@@ -22,13 +22,13 @@ class MrpCuttingSpeed(models.Model):
     _description='Workcenter whith cutting speed'
     _inherit=[]
     _order='workcenter_id,material_id,gas,thickness'
-    _sql_constraints = [('value_unique', 'unique (workcenter_id,thickness,gas)', "This couple of workcenter,thickness and gas already exists !"), ]
+    _sql_constraints = [('value_unique', 'unique (workcenter_id,material_id,thickness,gas)', "This couple of workcenter,thickness and gas already exists !"), ]
     workcenter_id=fields.Many2one('mrp.workcenter',string='Workcenter',domain=[('center_type','=','laser')])
     thickness=fields.Float(string='Thickness',required=True)
     speed_ext=fields.Integer(string='External Speed',help="meter per minute",required=True)
     speed_int=fields.Integer(string='Internal Speed',help="meter per minute",required=True)
-    material_id=fields.Many2one('metal.quotation.material',string='Material',required=True)
+    material_id=fields.Many2one('metal.quotation.material.template',string='Material',required=True)
     gas=fields.Selection([('oxygen','O2'),('azote','NA')],string='Gas',default='oxygen',required=True)
 
-    # material_volmass=fields.Float(string='Material Volumic Mass',related='material_id.base_material_density',readonly=True)
-    material_volmass=fields.Float(string='Material Volumic Mass',readonly=True)
+    material_volmass=fields.Float(string='Material Volumic Mass',related='material_id.density',readonly=True)
+    # material_volmass=fields.Float(string='Material Volumic Mass',readonly=True)

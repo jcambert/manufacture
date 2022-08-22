@@ -101,7 +101,7 @@
                                 <tree editable="bottom">
                                     <field name="base" invisible="1"/>
                                     <field name="material_tmpl_id" string="Base Name" options="{'no_open': True, 'no_create': True}" attrs="{'readonly':[('id','!=',False)],'invisible':[('base','=',False)]}" domain="[('base','=',True)]"/>
-                                    <field name="base_material_density" />
+                                    <field name="density" />
                                     <field name="name" string="Material Name"/>
                                     <field name="price" />
                                     <field name="is_template" invisible="1" />

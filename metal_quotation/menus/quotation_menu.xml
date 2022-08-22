@@ -31,7 +31,7 @@
 
         <menuitem id="metal_config_menu" name="Configuration" sequence="100">
             <menuitem id="metal_quotation_template_menu" name="Quotations Template" sequence="5" action="quotation_template" />
-            <menuitem id="metal_material_volmass_menu" name="Material Volumic Mass" sequence="22" action="view_metal_quotation_material_volumic_mass_action" />
+            <!-- <menuitem id="metal_material_volmass_menu" name="Material Volumic Mass" sequence="22" action="view_metal_quotation_material_volumic_mass_action" /> -->
             <menuitem id="metal_mrp_workcenter_menu" name="Workcenters" sequence="25" action="mrp.mrp_workcenter_action" />
             <menuitem id="metal_mrp_workcenter_cutting_speed_menu" name="Cutting Speed" sequence="30" action="view_workcenter_cutting_speed_action" />
         </menuitem>

@@ -20,11 +20,8 @@ from odoo import api, exceptions, fields, models, _
 
 
 # volumic_mass_id=fields.Many2one('metal.quotation.material.volumic.mass','Volumic Mass',required=True)
-# density=fields.Float('Density',related='base_template_id.volmass',digits=(6,2),help="Density of the material in Kg/m3" )
 
 
-# material_ids = fields.One2many('metal.quotation.material','material_tmpl_id','Materials')
-# performance: material_id provides prefetching on the first material only
 class QuotationMaterialTemplate(models.Model):
     _name='metal.quotation.material.template'
     _description='Quotation Material Template'
@@ -34,9 +31,13 @@ class QuotationMaterialTemplate(models.Model):
         ('name_uniq', 'unique (name)', "name already exists !"),
     ]
     name = fields.Char('Name',required=True,index=True)
-    density=fields.Float('Density',digits=(6,2),help="Density of the material in Kg/m3" )
+    # density=fields.Float('Density',digits=(6,2),help="Density of the material in Kg/m3" )
+    density=fields.Float('Density',related='base_template_id.volmass',digits=(6,2),help="Density of the material in Kg/m3" )
+    # volmass=fields.Float('Density',related='base_template_id.volmass',digits=(6,2),help="Density of the material in Kg/m3" )
     base_template_id=fields.Many2one('metal.material.template','Base Template',required=True)
+    # performance: material_id provides prefetching on the first material only
     material_id = fields.Many2one('metal.quotation.material', 'Material', compute='_compute_material_id')
+    material_ids = fields.One2many('metal.quotation.material','material_tmpl_id','Materials')
     price=fields.Monetary('Price',help="price per Kilogram", currency_field='currency_id')
 
 
@@ -65,12 +66,12 @@ class QuotationMaterialTemplate(models.Model):
         current_in_quotation=self.env['metal.quotation.material'].search([('material_tmpl_id', 'in', target_ids)]).mapped('material_tmpl_id.id')
         self._add_template_to_quotation(self._name, target_ids,current_in_quotation,quotation_id)
 
-# base_material_name = fields.Char('Template Name',related='material_tmpl_id.name')
-# base_material_density = fields.Float('Density',related='material_tmpl_id.density',digits=(6,2),help="Density of the material in Kg/m3" )
+# base_material_name = fields.Char('Template Name')
+# base_material_density = fields.Float('Density',digits=(6,2),help="Density of the material in Kg/m3" )
 class QuotationMaterial(models.Model):
     _name='metal.quotation.material'
     _description='Quotation Material'
-    _inherit=['metal.material','we.archive.mixin', 'we.sequence.mixin', 'we.company.currency.mixin','metal.quotation.template.inherit.mixin']
+    _inherit=['we.archive.mixin', 'we.sequence.mixin', 'we.company.currency.mixin','metal.quotation.template.inherit.mixin']
     _inherits = {'metal.quotation.material.template': 'material_tmpl_id'}
     _sql_constraints = [
         ('name_uniq', 'unique (name,quotation_id)', "name already exists in the quotation !"),
@@ -81,8 +82,7 @@ class QuotationMaterial(models.Model):
     
     price=fields.Monetary('Price',help="price per Kilogram", currency_field='currency_id')
 
-    base_material_name = fields.Char('Template Name')
-    base_material_density = fields.Float('Density',digits=(6,2),help="Density of the material in Kg/m3" )
+   
 
 
     @api.onchange('material_tmpl_id')

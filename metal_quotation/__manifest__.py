@@ -71,6 +71,7 @@
         'data/materials_data.xml',
         'data/components_data.xml',
         'data/formats_data.xml',
+        'data/workcenters_data.xml',
     ],
     'qweb': ['static/src/xml/*.xml'],
     # only loaded in demonstration mode
